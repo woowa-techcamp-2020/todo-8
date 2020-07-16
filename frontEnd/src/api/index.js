@@ -1,9 +1,12 @@
 function register(user) {
+  var userId = user.userId;
+  var userPassword = user.password;
+
   fetch("/api/register", {
     method: "POST",
     body: JSON.stringify({
-      id: 3,
-      name: "hello",
+      userId: userId,
+      password: userPassword,
     }),
     headers: {
       "Content-Type": "application/json",
@@ -13,8 +16,8 @@ function register(user) {
     .then((res) => {
       if (res.result === "ok") {
         console.log("ok");
-      } else if (res.result === "fail") {
-        console.log("흑흑");
+      } else if (res.result === "duplicate") {
+        console.log("이미존재합니다");
       }
     })
     .catch((e) => {
