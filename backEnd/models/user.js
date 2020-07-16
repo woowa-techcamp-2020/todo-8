@@ -1,36 +1,33 @@
-"user strict";
+class User {
+  constructor(userData) {
+    let id;
+    let userId;
+    let password;
 
-var sql = require("../config/database.js");
+    this.setId(userData.id);
+    this.setUserId(userData.userId);
+    this.setPassword(userData.password);
 
-var User = function (user) {
-  this.id = user.id;
-  this.name = user.name;
-};
+    this.setId = function(newId) {
+      id = newId;
+    }
 
-User.register = async function (newUser, result) {
-  return new Promise((resolve, reject) => {
-    sql.query("insert into user set ?", newUser, function (err, res) {
-      if (err) {
-        return reject(err.code);
-      }
-      return resolve(res.insertId);
-    });
-  }).catch(function (err) {
-    return err;
-  });
-};
+    this.getUserId = function() {
+      return userId;
+    }
 
-User.getAllUsers = async function () {
-  return new Promise((resolve, reject) => {
-    sql.query("select * from user", function (err, res) {
-      if (err) {
-        return reject(err.code);
-      }
-      return resolve(res);
-    });
-  }).catch(function (err) {
-    return err;
-  });
-};
+    this.setUserId = function(newUserId) {
+      userId = newUserId;
+    }
+
+    this.getPassword = function() {
+      return password;
+    }
+
+    this.setPassword = function(newPassword) {
+      name = newPassword;
+    }
+  }
+}
 
 module.exports = { User };

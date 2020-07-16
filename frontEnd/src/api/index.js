@@ -1,40 +1,35 @@
-function register(user) {
-  fetch("/api/register", {
-    method: "POST",
-    body: JSON.stringify({
-      id: 3,
-      name: "hello",
-    }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      if (res.result === "ok") {
-        console.log("ok");
-      } else if (res.result === "fail") {
-        console.log("흑흑");
-      }
-    })
-    .catch((e) => {
-      throw e;
-    });
+async function createUser(user) {
+  return await fetch('/api/v1/users', {
+    method: 'POST',
+    body: JSON.stringify({userId: 123, password: "password"}),
+    headers: {"Content-Type": "application/json"}
+  }).then(function (response) {
+    let user = response.json();
+
+    return user;
+  });
 }
 
 async function getAllUsers() {
-  return await fetch("/api/getAllusers")
-    .then((res) => res.json())
-    .then((res) => {
-      if (res.result === "ok") {
-        return res.userList;
-      } else if (res.result === "fail") {
-        return res.message;
-      }
-    })
-    .catch((e) => {
-      throw e;
-    });
+  return await fetch('/api/v1/users', {
+    method: 'GET',
+    headers: {"Content-Type": "application/json"}
+  }).then(function (response) {
+    let users = response.json();
+
+    return users;
+  });
 }
 
-export default { register, getAllUsers };
+async function getUserById(id) {
+  return await fetch('/api/v1/users/'+ '1', {
+    method: 'GET',
+    headers: {"Content-Type": "application/json"}
+  }).then(function (response) {
+    let user = response.json();
+
+    return user;
+  });
+}
+
+export default { createUser, getAllUsers, getUserById };

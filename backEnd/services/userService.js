@@ -1,11 +1,33 @@
-var userModel = require("../models/user.js");
+let userModel = require("../models/user");
+let userRepo = require("../repositories/userRepository")
 
-async function register(user) {
-  const res = await userModel.User.register(user);
-  return res;
+/*
+  request -> router -> service -> repo -> db -> CRUD models -> repo -> service -> router -> response
+ */
+function createUser(userParams) {
+  let userDTO = new userModel(userParams);
+
+  let user = userRepo.createUser(userDTO);
+
+  /* write user business logic */
+
+  return user;
 }
-async function getAllUsers() {
-  const res = await userModel.User.getAllUsers();
-  return res;
+
+function getAllUsers() {
+  let users = userRepo.getAllUsers();
+
+  /* write user business logic */
+
+  return users;
 }
-module.exports = { register, getAllUsers };
+
+function getUserById(id) {
+  let user = userRepo.getUserById(id);
+
+  /* write user business logic */
+
+  return user;
+}
+
+module.exports = { createUser, getAllUsers, getUserById };
