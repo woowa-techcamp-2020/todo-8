@@ -3,8 +3,8 @@
 var sql = require("../config/database.js");
 
 var User = function (user) {
-  this.id = user.id;
-  this.name = user.name;
+  this.userId = user.userId;
+  this.password = user.password;
 };
 
 User.register = async function (newUser, result) {
