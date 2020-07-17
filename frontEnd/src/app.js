@@ -2,6 +2,7 @@ import MainService from "./lib/mainService.js";
 import api from "./api/index.js";
 import userService from "./lib/userService.js";
 import moment from "moment";
+import card from "./components/card.js";
 
 console.log("what's different? what? hello?");
 window.addEventListener("DOMContentLoaded", async () => {
