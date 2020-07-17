@@ -52,6 +52,7 @@ async function addUsersToUnorderedList() {
   let menuUnorderedEl = document.getElementById("menu-unordered-el");
   menuUnorderedEl.innerHTML = "";
   let userList = await api.getAllUsers();
+  userList.reverse();
   console.log("현재 사용자는 [", userList.length, "]명 입니다.");
   userList.forEach((user) => {
     let unorderedEl = document.createElement("li");
