@@ -5,12 +5,12 @@ import userService from "./lib/userService.js";
 import moment from "moment";
 
 window.addEventListener("DOMContentLoaded", async () => {
-  const targetEl = document.querySelector("#app");
+  const todoBoard = document.querySelector("#app");
 
   var idField = document.createElement("input");
   var pwField = document.createElement("input");
-  idField.innerHTML = "ID";
-  pwField.innerHTML = "PW";
+  idField.placeholder = "ID";
+  pwField.placeholder = "PW";
   var resgitser_btn = document.createElement("BUTTON");
   resgitser_btn.innerHTML = "회원가입";
   resgitser_btn.onclick = async function () {
@@ -21,38 +21,13 @@ window.addEventListener("DOMContentLoaded", async () => {
     });
   };
 
-  var getAllUsers_btn = document.createElement("BUTTON");
-  getAllUsers_btn.innerHTML = "사용자 조회하기";
-  var userList = [];
-  getAllUsers_btn.onclick = async function () {
-    userList = await api.getAllUsers();
-    console.log("현재 사용자는 [", userList.length, "]명 입니다.");
-    userList.forEach((user) => {
-      let div = document.createElement("div");
-      let date = new Date(
-        moment(user.created_at).format("YYYY-MM-DD HH:mm:ss")
-      );
-      div.innerHTML =
-        user.userId +
-        "는 " +
-        (date.getMonth() + 1) +
-        "월 " +
-        date.getDate() +
-        "일 에 가입했습니다.";
-      targetEl.appendChild(div);
-    });
-  };
+  todoBoard.appendChild(idField);
+  todoBoard.appendChild(pwField);
+  todoBoard.appendChild(resgitser_btn);
 
-  targetEl.appendChild(idField);
-  targetEl.appendChild(pwField);
-  targetEl.appendChild(resgitser_btn);
-  targetEl.appendChild(getAllUsers_btn);
-
-  document.getElementById("menuButton").addEventListener("click", () => {
-    let menuButton = document.getElementById("menuButton");
-    let menu = document.getElementById("nav");
-    console.log(menuButton);
-    console.log(menu);
+  let menuButton = document.getElementById("menuButton");
+  let menu = document.getElementById("nav");
+  menuButton.addEventListener("click", async () => {
     if (menuButton.classList.contains("closed")) {
       menuButton.classList.remove("closed");
       menuButton.classList.add("opened");
@@ -63,6 +38,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     if (menu.classList.contains("closed")) {
       menu.classList.remove("closed");
       menu.classList.add("opened");
+      await addUsersToUnorderedList();
       menu.hidden = false;
     } else {
       menu.classList.remove("opened");
@@ -71,3 +47,16 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   });
 });
+
+async function addUsersToUnorderedList() {
+  let menuUnorderedEl = document.getElementById("menu-unordered-el");
+  menuUnorderedEl.innerHTML = "";
+  let userList = await api.getAllUsers();
+  console.log("현재 사용자는 [", userList.length, "]명 입니다.");
+  userList.forEach((user) => {
+    let unorderedEl = document.createElement("li");
+    let date = new Date(moment(user.created_at).format("YYYY-MM-DD HH:mm:ss"));
+    unorderedEl.innerText = user.userId + "는 " + date + "에 가입했습니다.";
+    menuUnorderedEl.appendChild(unorderedEl);
+  });
+}
