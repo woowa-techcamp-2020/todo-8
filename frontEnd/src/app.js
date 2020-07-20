@@ -10,8 +10,11 @@ import moment from "moment";
 
 window.addEventListener("DOMContentLoaded", async () => {
   const todoBoard = document.querySelector("#app");
-
-  const service = new dragService({ todoBoard });
+  const dragAndDrop = new dragService({ todoBoard });
+  todoBoard.addEventListener("mousemove", dragAndDrop.mousemove);
+  todoBoard.addEventListener("mousedown", dragAndDrop.mousedown);
+  todoBoard.addEventListener("mouseup", dragAndDrop.mouseup);
+  todoBoard.addEventListener("mouseleave", dragAndDrop.mouseleave);
 
   // var idField = document.createElement("input");
   // var pwField = document.createElement("input");
