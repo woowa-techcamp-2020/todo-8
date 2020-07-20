@@ -1,0 +1,52 @@
+#app {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+}
+
+ul {
+  &.list {
+    width: 300px;
+    height: 600px;
+    margin: 10px;
+    padding: 10px;
+    background-color: #eeeeee;
+    border-radius: 10px;
+  }
+}
+
+li {
+  &.card {
+    list-style: none;
+    padding: 10px;
+    margin: 10px 0 10px 0;
+    width: 280px;
+    background-color: #dddddd;
+    border-radius: 10px;
+    text-align: center;
+    color: #000;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  &.start {
+    height: 0;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+}
+
+.hover {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+
+  transform: rotate(-5deg);
+}
+
+.temp {
+  opacity: 0.5;
+}
