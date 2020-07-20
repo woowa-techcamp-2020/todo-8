@@ -1,5 +1,11 @@
 * {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; }
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  margin: 0;
+  padding: 0; }
+
+html {
+  width: 100%;
+  height: 100%; }
 
 header {
   background: black;
@@ -23,7 +29,6 @@ a {
   color: black; }
 
 #menuButton {
-  padding: 10px;
   color: white;
   position: absolute;
   top: 20px;
@@ -49,7 +54,9 @@ a {
   #menuButton.closed {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.15); }
 
-#nav {
+#sidebar {
+  height: calc(100vh - 58px);
+  overflow-y: scroll;
   float: right;
   right: 0;
   background: white;
@@ -60,18 +67,60 @@ a {
   z-index: 1;
   transform: translateX(200px);
   opacity: 0; }
-  #nav ul {
-    list-style: none;
-    padding: 0; }
-    #nav ul li {
-      transition: all 0.15s ease;
-      display: block;
-      padding: 20px;
-      height: 100%; }
-      #nav ul li:hover {
-        background: black;
-        color: #eee; }
-  #nav.opened {
+  #sidebar ul.activityLogList {
+    list-style: none; }
+  #sidebar li.activityLog {
+    transition: all 0.15s ease;
+    display: block;
+    padding: 20px;
+    height: 100%;
+    cursor: pointer; }
+  #sidebar li:hover {
+    background: black;
+    color: #eee; }
+  #sidebar.opened {
     transform: translateX(0);
     opacity: 1; }
+
+#app {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  overflow: auto; }
+
+ul.list {
+  width: 300px;
+  height: 600px;
+  margin: 10px;
+  padding: 10px;
+  background-color: #eeeeee;
+  border-radius: 10px; }
+
+li.card {
+  list-style: none;
+  padding: 10px;
+  margin: 10px 0 10px 0;
+  width: 280px;
+  background-color: #dddddd;
+  border-radius: 10px;
+  text-align: center;
+  color: #000;
+  user-select: none;
+  cursor: pointer; }
+
+li.start {
+  height: 0;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none; }
+
+.hover {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  transform: rotate(-5deg); }
+
+.temp {
+  opacity: 0.5; }
 
