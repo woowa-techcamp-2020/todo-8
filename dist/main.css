@@ -84,13 +84,14 @@ a {
 
 #app {
   width: auto;
+  height: calc(100vh - 58px);
   display: flex;
   flex-direction: row;
   overflow: auto; }
 
 ul.list {
   width: 300px;
-  height: 600px;
+  height: auto;
   margin: 10px;
   padding: 10px;
   background-color: #eeeeee;
@@ -109,17 +110,14 @@ li.card {
   cursor: pointer; }
 
 li.start {
-  height: 0;
-  border-radius: 0;
-  padding: 0;
-  margin: 0;
+  font-size: large;
   list-style: none; }
 
 .hover {
   position: absolute;
   padding: 0;
   margin: 0;
-  transform: rotate(-5deg); }
+  transform: scale(1.2); }
 
 .temp {
   opacity: 0.5; }
