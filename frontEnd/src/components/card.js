@@ -1,59 +1,45 @@
 (function () {
   const currentDocument = document.currentScript.ownerDocument;
-
-  console.log("실행되나보자", currentDocument);
-  // Private Methods will go here:
-  // ...
-
-  class PeopleList extends HTMLElement {
+  console.log(currentDocument);
+  class Card extends HTMLElement {
     constructor() {
-      // If you define a constructor, always call super() first as it is required by the CE spec.
       super();
-    }
-
-    connectedCallback() {
-      // Create a Shadow DOM using our template
-      const shadowRoot = this.attachShadow({ mode: "open" });
-      const template = currentDocument.querySelector("#people-list-template");
-      const instance = template.content.cloneNode(true);
-      shadowRoot.appendChild(instance);
-    }
-
-    get list() {
-      return this._list;
-    }
-
-    set list(list) {
-      this._list = list;
-      this.render();
-    }
-
-    render() {
-      let ulElement = this.shadowRoot.querySelector(".people-list__list");
-      ulElement.innerHTML = "";
-
-      this.list.forEach((person) => {
-        let li = _createPersonListElement(this, person);
-        ulElement.appendChild(li);
+      // Setup a click listener on <user-card>
+      this.addEventListener("click", (e) => {
+        this.toggleCard();
       });
+    }
+
+    // Called when element is inserted in DOM
+    connectedCallback() {
+      const shadowRoot = this.attachShadow({ mode: "open" });
+      const template = currentDocument.querySelector("#card-detail-template");
+      console.log("이게뭘까?", template);
+      // const instance = template.content.cloneNode(true);
+      //shadowRoot.appendChild(instance);
+    }
+
+    // Creating an API function so that other components can use this to populate this component
+    updateCardDetail(cardData) {
+      this.render(cardData);
+    }
+
+    // Function to populate the card(Can be made private)
+    render(cardData) {
+      this.shadowRoot.querySelector(".card-name").innerHTML = cardData.name;
+      this.shadowRoot.querySelector(".card-writer").innerHTML =
+        cardData.user_id;
+    }
+
+    toggleCard() {
+      console.log("날 눌렀구나!");
+      // let elem = this.shadowRoot.querySelector(".card__hidden-content");
+      // let btn = this.shadowRoot.querySelector(".card__details-btn");
+      // btn.innerHTML =
+      //   elem.style.display == "none" ? "Less Details" : "More Details";
+      // elem.style.display = elem.style.display == "none" ? "block" : "none";
     }
   }
 
-  customElements.define("people-list", PeopleList);
+  customElements.define("card-detail", Card);
 })();
-
-function _createPersonListElement(self, person) {
-  let li = currentDocument.createElement("LI");
-  li.innerHTML = person.name;
-  li.className = "people-list__name";
-  li.onclick = () => {
-    let event = new CustomEvent("PersonClicked", {
-      detail: {
-        personId: person.id,
-      },
-      bubbles: true,
-    });
-    self.dispatchEvent(event);
-  };
-  return li;
-}

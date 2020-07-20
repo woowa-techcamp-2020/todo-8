@@ -1,11 +1,14 @@
-<template id="people-list-template">
-  <style>
-    .card__container {
-      border: 1px solid black;
-    }
-  </style>
-  <div class="people-list__container">
-    <ul class="people-list__list"></ul>
+<template id="card-detail-template">
+  <link rel="stylesheet" href="../components/card.css" />
+  <div class="card-container">
+    <div class="card-first-line">
+      <div class="card-name">페이지네이션 처리</div>
+      <button class="card-delete-btn">More Details</button>
+    </div>
+    <div class="card-added-by">
+      Added By
+      <p class="card-writer">이찬호</p>
+    </div>
   </div>
 </template>
-<script src="./card.js"></script>
+<script src="card.js"></script>
