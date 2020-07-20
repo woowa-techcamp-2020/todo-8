@@ -1,36 +1,50 @@
-"user strict";
+class User {
+  constructor(userData) {
+    let id;
+    let userId;
+    let password;
+    let created_at;
+    let updated_at;
 
-var sql = require("../config/database.js");
+    this.setId(userData.id);
+    this.setUserId(userData.userId);
+    this.setPassword(userData.password);
+    this.setCreatedAt(userData.created_at);
+    this.setUpdatedAt(userData.updated_at);
+  }
 
-var User = function (user) {
-  this.userId = user.userId;
-  this.password = user.password;
-};
+  setId(id) {
+    this.id = id;
+  }
+  getId() {
+    return this.id;
+  }
 
-User.register = async function (newUser, result) {
-  return new Promise((resolve, reject) => {
-    sql.query("insert into user set ?", newUser, function (err, res) {
-      if (err) {
-        return reject(err.code);
-      }
-      return resolve(res.insertId);
-    });
-  }).catch(function (err) {
-    return err;
-  });
-};
+  setUserId(userId) {
+    this.userId = userId;
+  }
+  getUserId() {
+    return this.userId;
+  }
+  setPassword(password) {
+    this.password = password;
+  }
+  getPassword() {
+    return this.password;
+  }
 
-User.getAllUsers = async function () {
-  return new Promise((resolve, reject) => {
-    sql.query("select * from user", function (err, res) {
-      if (err) {
-        return reject(err.code);
-      }
-      return resolve(res);
-    });
-  }).catch(function (err) {
-    return err;
-  });
-};
+  setCreatedAt(created_at) {
+    this.created_at = created_at;
+  }
+  getCreatedAt() {
+    return this.created_at;
+  }
+  setUpdatedAt(updated_at) {
+    this.updated_at = updated_at;
+  }
+  getUpdatedAt() {
+    return this.updated_at;
+  }
+}
 
 module.exports = { User };

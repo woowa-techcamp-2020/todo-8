@@ -7,6 +7,7 @@ import appStyle from "../style/app.scss";
 
 import api from "./api/index.js";
 import moment from "moment";
+import card from "./components/card.js";
 
 window.addEventListener("DOMContentLoaded", async () => {
   const todoBoard = document.querySelector("#app");

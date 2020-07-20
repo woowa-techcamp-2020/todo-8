@@ -58,6 +58,7 @@ a {
   height: calc(100vh - 58px);
   overflow-y: scroll;
   float: right;
+  min-height: 100vh;
   right: 0;
   background: white;
   color: black;
