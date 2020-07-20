@@ -2,6 +2,13 @@
   font-family: -apple-system, system-ui, BlinkMacSystemFont,
     "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
     "Helvetica Neue", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  width: 100%;
+  height: 100%;
 }
 
 header {
@@ -31,7 +38,6 @@ a {
 }
 
 #menuButton {
-  padding: 10px;
   color: white;
   position: absolute;
   top: 20px;
@@ -67,9 +73,11 @@ a {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
   }
 }
-#nav {
+
+#sidebar {
+  height: calc(100vh - 58px);
+  overflow-y: scroll;
   float: right;
-  min-height: 100vh;
   right: 0;
   background: white;
   color: black;
@@ -81,18 +89,23 @@ a {
   opacity: 0;
 
   ul {
-    list-style: none;
-    padding: 0;
+    &.activityLogList {
+      list-style: none;
+    }
+  }
 
-    li {
+  li {
+    &.activityLog {
       transition: all 0.15s ease;
       display: block;
       padding: 20px;
       height: 100%;
-      &:hover {
-        background: black;
-        color: #eee;
-      }
+      cursor: pointer;
+    }
+
+    &:hover {
+      background: black;
+      color: #eee;
     }
   }
 
