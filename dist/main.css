@@ -51,6 +51,7 @@ a {
 
 #nav {
   float: right;
+  min-height: 100vh;
   right: 0;
   background: white;
   color: black;

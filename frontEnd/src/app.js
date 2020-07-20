@@ -3,6 +3,7 @@ import api from "./api/index.js";
 import style from "../style/index.scss";
 import userService from "./lib/userService.js";
 import moment from "moment";
+import card from "./components/card.js";
 
 window.addEventListener("DOMContentLoaded", async () => {
   const todoBoard = document.querySelector("#app");

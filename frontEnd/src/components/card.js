@@ -1,35 +1,59 @@
-const display = document.getElementById("display");
-const column = window.document.getElementById("app");
+(function () {
+  const currentDocument = document.currentScript.ownerDocument;
 
-const state = {
-  count: 0,
-};
+  console.log("실행되나보자", currentDocument);
+  // Private Methods will go here:
+  // ...
 
-// Components
+  class PeopleList extends HTMLElement {
+    constructor() {
+      // If you define a constructor, always call super() first as it is required by the CE spec.
+      super();
+    }
 
-const counter = function (count) {
-  let classname = "text-error";
+    connectedCallback() {
+      // Create a Shadow DOM using our template
+      const shadowRoot = this.attachShadow({ mode: "open" });
+      const template = currentDocument.querySelector("#people-list-template");
+      const instance = template.content.cloneNode(true);
+      shadowRoot.appendChild(instance);
+    }
 
-  if (count > 10) {
-    classname = "text-success";
+    get list() {
+      return this._list;
+    }
+
+    set list(list) {
+      this._list = list;
+      this.render();
+    }
+
+    render() {
+      let ulElement = this.shadowRoot.querySelector(".people-list__list");
+      ulElement.innerHTML = "";
+
+      this.list.forEach((person) => {
+        let li = _createPersonListElement(this, person);
+        ulElement.appendChild(li);
+      });
+    }
   }
 
-  return `<p class="Counter">Count: <span class="${classname}">${count}</span></p>`;
-};
+  customElements.define("people-list", PeopleList);
+})();
 
-// Render Methods
-
-function renderCount() {
-  display.innerHTML = counter(state.count);
+function _createPersonListElement(self, person) {
+  let li = currentDocument.createElement("LI");
+  li.innerHTML = person.name;
+  li.className = "people-list__name";
+  li.onclick = () => {
+    let event = new CustomEvent("PersonClicked", {
+      detail: {
+        personId: person.id,
+      },
+      bubbles: true,
+    });
+    self.dispatchEvent(event);
+  };
+  return li;
 }
-
-// Update methods
-
-function incCountUp() {
-  let newCount = state.count + 1;
-  state.count = newCount;
-
-  renderCount();
-}
-
-renderCount();
