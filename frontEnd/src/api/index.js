@@ -29,7 +29,7 @@ function register(user) {
       if (res.result === "ok") {
         console.log("ok");
       } else if (res.result === "duplicate") {
-        console.log("이미존재합니다");
+        console.log(res.message);
       }
     })
     .catch((e) => {
