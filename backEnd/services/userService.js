@@ -1,15 +1,31 @@
 var userModel = require("../models/user.js");
+var userRepo = require("../repositories/userRepository.js");
 const moment = require("moment");
 
-async function register(user) {
-  user.created_at = moment().format("YYYY-MM-DD HH:mm:ss");
-  user.updated_at = moment().format("YYYY-MM-DD HH:mm:ss");
-  console.log(user);
-  const res = await userModel.User.register(user);
-  return res;
+/*
+  request -> router -> service -> repo -> db -> CRUD models -> repo -> service -> router -> response
+ */
+
+function createUser(userParams) {
+  userParams.created_at = moment().format("YYYY-MM-DD HH:mm:ss");
+  userParams.updated_at = moment().format("YYYY-MM-DD HH:mm:ss");
+
+  let userDTO = new userModel.User(userParams);
+  let user = userRepo.createUser(userDTO);
+  // const res = await userModel.User.register(user);
+
+  return user;
 }
-async function getAllUsers() {
-  const res = await userModel.User.getAllUsers();
-  return res;
+function getAllUsers() {
+  // const res = await userModel.User.getAllUsers();
+
+  let userList = userRepo.getAllUsers();
+  return userList;
 }
-module.exports = { register, getAllUsers };
+
+function getUserById(id) {
+  let user = userRepo.getUserById(id);
+
+  return user;
+}
+module.exports = { createUser, getAllUsers, getUserById };

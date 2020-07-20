@@ -1,8 +1,20 @@
+async function createUser(user) {
+  return await fetch("/api/users", {
+    method: "POST",
+    body: JSON.stringify({ userId: 123, password: "password" }),
+    headers: { "Content-Type": "application/json" },
+  }).then(function (response) {
+    let user = response.json();
+
+    return user;
+  });
+}
+
 function register(user) {
   var userId = user.userId;
   var userPassword = user.password;
 
-  fetch("/api/register", {
+  fetch("/api/users", {
     method: "POST",
     body: JSON.stringify({
       userId: userId,
@@ -26,7 +38,7 @@ function register(user) {
 }
 
 async function getAllUsers() {
-  return await fetch("/api/getAllusers")
+  return await fetch("/api/users")
     .then((res) => res.json())
     .then((res) => {
       if (res.result === "ok") {
@@ -40,4 +52,4 @@ async function getAllUsers() {
     });
 }
 
-export default { register, getAllUsers };
+export default { register, getAllUsers, createUser };

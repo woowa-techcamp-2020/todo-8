@@ -1,4 +1,4 @@
-"user strict";
+"use strict";
 
 const mysql = require("mysql");
 const connection = mysql.createConnection({
