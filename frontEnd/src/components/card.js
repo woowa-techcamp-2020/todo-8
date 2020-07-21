@@ -1,59 +1,32 @@
-(function () {
-  const currentDocument = document.currentScript.ownerDocument;
-
-  console.log("실행되나보자", currentDocument);
-  // Private Methods will go here:
-  // ...
-
-  class PeopleList extends HTMLElement {
-    constructor() {
-      // If you define a constructor, always call super() first as it is required by the CE spec.
-      super();
-    }
-
-    connectedCallback() {
-      // Create a Shadow DOM using our template
-      const shadowRoot = this.attachShadow({ mode: "open" });
-      const template = currentDocument.querySelector("#people-list-template");
-      const instance = template.content.cloneNode(true);
-      shadowRoot.appendChild(instance);
-    }
-
-    get list() {
-      return this._list;
-    }
-
-    set list(list) {
-      this._list = list;
-      this.render();
-    }
-
-    render() {
-      let ulElement = this.shadowRoot.querySelector(".people-list__list");
-      ulElement.innerHTML = "";
-
-      this.list.forEach((person) => {
-        let li = _createPersonListElement(this, person);
-        ulElement.appendChild(li);
-      });
-    }
+class Card {
+  constructor(CardDTO) {
+    this.id = CardDTO.id;
+    this.name = CardDTO.name;
+    this.created_at = CardDTO.created_at;
+    this.updated_at = CardDTO.updated_at;
+    this.column_id = CardDTO.column_id;
+    this.user_id = CardDTO.user_id;
   }
 
-  customElements.define("people-list", PeopleList);
-})();
-
-function _createPersonListElement(self, person) {
-  let li = currentDocument.createElement("LI");
-  li.innerHTML = person.name;
-  li.className = "people-list__name";
-  li.onclick = () => {
-    let event = new CustomEvent("PersonClicked", {
-      detail: {
-        personId: person.id,
-      },
-      bubbles: true,
-    });
-    self.dispatchEvent(event);
-  };
-  return li;
+  render() {
+    const item = document.createElement("div");
+    item.classList.add("card");
+    item.innerHTML = `
+      <div class="item__show">
+        <div class="item__col">logo</div>
+        <div class="item__col">
+          <span class="item__content">${this.name}</span>
+          <span class="item__creator">Added by ${this.user_id}</span>
+        </div>
+        <div class="item__col"><button class="item__close-btn">X</button></div>
+      </div>
+      <div class="item__update hide">
+        <textarea></textarea>
+        <div class="item__update-btns">
+          <button class="update-btn">Update</button>
+          <button class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+      `;
+  }
 }

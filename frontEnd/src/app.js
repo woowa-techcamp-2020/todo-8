@@ -17,23 +17,41 @@ window.addEventListener("DOMContentLoaded", async () => {
   todoBoard.addEventListener("mouseup", dragAndDrop.mouseup);
   todoBoard.addEventListener("mouseleave", dragAndDrop.mouseleave);
 
-  // var idField = document.createElement("input");
-  // var pwField = document.createElement("input");
-  // idField.placeholder = "ID";
-  // pwField.placeholder = "PW";
-  // var resgitser_btn = document.createElement("BUTTON");
-  // resgitser_btn.innerHTML = "회원가입";
-  // resgitser_btn.onclick = async function () {
-  //   console.log("id=", idField.value, "pw=", pwField.value);
-  //   await api.register({
-  //     userId: idField.value,
-  //     password: pwField.value,
-  //   });
-  // };
+  // 회원가입 테스트 화면
+  var registerDiv = document.createElement("div");
+  var idField = document.createElement("input");
+  var pwField = document.createElement("input");
+  idField.placeholder = "ID";
+  pwField.placeholder = "PW";
+  var resgitser_btn = document.createElement("BUTTON");
+  resgitser_btn.innerHTML = "회원가입";
+  resgitser_btn.onclick = async function () {
+    console.log("id=", idField.value, "pw=", pwField.value);
+    await api.User().register({
+      userId: idField.value,
+      password: pwField.value,
+    });
+  };
+  registerDiv.appendChild(idField);
+  registerDiv.appendChild(pwField);
+  registerDiv.appendChild(resgitser_btn);
 
-  // todoBoard.appendChild(idField);
-  // todoBoard.appendChild(pwField);
-  // todoBoard.appendChild(resgitser_btn);
+  // 카드 추가 테스트 화면
+
+  var cardDiv = document.createElement("div");
+  var cardBtn = document.createElement("BUTTON");
+  cardBtn.innerHTML = "카드추가";
+  cardBtn.onclick = async function () {
+    console.log("이름=", idField.value);
+    await api.Card().createCard({
+      name: idField.value,
+      column_id: 1,
+      user_id: 26,
+    });
+  };
+  cardDiv.appendChild(cardBtn);
+  registerDiv.appendChild(cardDiv);
+  todoBoard.appendChild(registerDiv);
 
   let menuButton = document.getElementById("menuButton");
   let sidebar = document.getElementById("sidebar");
@@ -62,7 +80,7 @@ async function addActivityLogToActivityLogList() {
   let activityLogList = document.getElementById("activity-log-list");
   activityLogList.classList.add("activityLog");
   activityLogList.innerHTML = "";
-  let userList = await api.getAllUsers();
+  let userList = await api.User().getAllUsers();
   userList.reverse();
   console.log("현재 사용자는 [", userList.length, "]명 입니다.");
   userList.forEach((user) => {
