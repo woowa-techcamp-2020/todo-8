@@ -1,45 +1,32 @@
-(function () {
-  const currentDocument = document.currentScript.ownerDocument;
-  console.log(currentDocument);
-  class Card extends HTMLElement {
-    constructor() {
-      super();
-      // Setup a click listener on <user-card>
-      this.addEventListener("click", (e) => {
-        this.toggleCard();
-      });
-    }
-
-    // Called when element is inserted in DOM
-    connectedCallback() {
-      const shadowRoot = this.attachShadow({ mode: "open" });
-      const template = currentDocument.querySelector("#card-detail-template");
-      console.log("이게뭘까?", template);
-      // const instance = template.content.cloneNode(true);
-      //shadowRoot.appendChild(instance);
-    }
-
-    // Creating an API function so that other components can use this to populate this component
-    updateCardDetail(cardData) {
-      this.render(cardData);
-    }
-
-    // Function to populate the card(Can be made private)
-    render(cardData) {
-      this.shadowRoot.querySelector(".card-name").innerHTML = cardData.name;
-      this.shadowRoot.querySelector(".card-writer").innerHTML =
-        cardData.user_id;
-    }
-
-    toggleCard() {
-      console.log("날 눌렀구나!");
-      // let elem = this.shadowRoot.querySelector(".card__hidden-content");
-      // let btn = this.shadowRoot.querySelector(".card__details-btn");
-      // btn.innerHTML =
-      //   elem.style.display == "none" ? "Less Details" : "More Details";
-      // elem.style.display = elem.style.display == "none" ? "block" : "none";
-    }
+class Card {
+  constructor(CardDTO) {
+    this.id = CardDTO.id;
+    this.name = CardDTO.name;
+    this.created_at = CardDTO.created_at;
+    this.updated_at = CardDTO.updated_at;
+    this.column_id = CardDTO.column_id;
+    this.user_id = CardDTO.user_id;
   }
 
-  customElements.define("card-detail", Card);
-})();
+  render() {
+    const item = document.createElement("div");
+    item.classList.add("card");
+    item.innerHTML = `
+      <div class="item__show">
+        <div class="item__col">logo</div>
+        <div class="item__col">
+          <span class="item__content">${this.name}</span>
+          <span class="item__creator">Added by ${this.user_id}</span>
+        </div>
+        <div class="item__col"><button class="item__close-btn">X</button></div>
+      </div>
+      <div class="item__update hide">
+        <textarea></textarea>
+        <div class="item__update-btns">
+          <button class="update-btn">Update</button>
+          <button class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+      `;
+  }
+}

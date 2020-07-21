@@ -9,16 +9,12 @@ const moment = require("moment");
 function createUser(userParams) {
   userParams.created_at = moment().format("YYYY-MM-DD HH:mm:ss");
   userParams.updated_at = moment().format("YYYY-MM-DD HH:mm:ss");
-
   let userDTO = new userModel.User(userParams);
   let user = userRepo.createUser(userDTO);
-  // const res = await userModel.User.register(user);
 
   return user;
 }
 function getAllUsers() {
-  // const res = await userModel.User.getAllUsers();
-
   let userList = userRepo.getAllUsers();
   return userList;
 }
