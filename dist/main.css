@@ -91,7 +91,7 @@ a {
 
 ul.list {
   width: 300px;
-  height: auto;
+  height: fit-content;
   margin: 10px;
   padding: 10px;
   background-color: #eeeeee;
@@ -110,7 +110,13 @@ li.card {
   cursor: pointer; }
 
 li.start {
+  cursor: pointer;
   font-size: large;
+  list-style: none; }
+
+li.end {
+  cursor: pointer;
+  font-size: small;
   list-style: none; }
 
 .hover {
