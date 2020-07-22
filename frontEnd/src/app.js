@@ -99,7 +99,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     await api.Card().createCard({
       name: idField.value,
       column_id: 1,
-      user_id: 26,
+      user_id: currUser.id,
     });
   };
   cardDiv.appendChild(cardBtn);

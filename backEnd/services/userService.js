@@ -1,4 +1,3 @@
-var userModel = require("../models/user.js");
 var userRepo = require("../repositories/userRepository.js");
 const moment = require("moment");
 const { User } = require("../models/user.js");
@@ -10,19 +9,14 @@ const { User } = require("../models/user.js");
 async function createUser(userParams) {
   userParams.created_at = moment().format("YYYY-MM-DD HH:mm:ss");
   userParams.updated_at = moment().format("YYYY-MM-DD HH:mm:ss");
-  let userDTO = new userModel.User(userParams);
+  let userDTO = new User(userParams);
 
-  let user = await userRepo.getUserById(userDTO.getId());
-  if (user.length == 1) {
+  let res = await userRepo.createUser(userDTO);
+  if (res === "ER_DUP_ENTRY") {
     return { result: "fail", message: "이미 존재하는 유저입니다." };
   } else {
-    let res = await userRepo.createUser(userDTO);
-    if (res === "ER_DUP_ENTRY") {
-      return { result: "fail", message: "이미 존재하는 유저입니다." };
-    } else {
-      let user = await userRepo.getUserById(res);
-      return { result: "ok", message: "가입 완료", user: user[0] };
-    }
+    let user = await userRepo.getUserById(res);
+    return { result: "ok", message: "가입 완료", user: user[0] };
   }
 }
 async function getAllUsers() {
@@ -62,7 +56,7 @@ async function updateUser(newUser) {
     return { result: "fail", message: "존재하지 않는 유저입니다." };
   } else {
     newUser.updated_at = moment().format("YYYY-MM-DD HH:mm:ss");
-    let userDTO = new userModel.User(newUser);
+    let userDTO = new User(newUser);
 
     await userRepo.updateUser(userDTO);
 

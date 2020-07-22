@@ -14,33 +14,6 @@ async function createUser(user) {
   });
 }
 
-function register(user) {
-  var userId = user.userId;
-  var userPassword = user.password;
-
-  fetch("/api/users", {
-    method: "POST",
-    body: JSON.stringify({
-      userId: userId,
-      password: userPassword,
-    }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      if (res.result === "ok") {
-        console.log("ok");
-      } else if (res.result === "duplicate") {
-        console.log(res.message);
-      }
-    })
-    .catch((e) => {
-      throw e;
-    });
-}
-
 async function getAllUsers() {
   return await fetch("/api/users")
     .then((res) => res.json())
@@ -99,7 +72,6 @@ async function deleteUser(id) {
 }
 export default {
   createUser,
-  register,
   getAllUsers,
   getUserById,
   updateUser,

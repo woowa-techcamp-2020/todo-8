@@ -5,22 +5,31 @@ var cardService = require("../services/cardService.js");
 /* GET cards listing. */
 router.post("/card", async function (req, res, next) {
   var cardData = req.body;
-  var card = await cardService.createCard(cardData);
-  if (card === "ER_DUP_ENTRY") {
-    res.json({ result: "duplicate", message: "이미 존재하는 아이디입니다" });
-  } else {
-    res.json({ result: "ok", message: "회원가입 성공" });
-  }
+  console.log("rrr", cardData);
+  var result = await cardService.createCard(cardData);
+  res.json(result);
 });
 
 router.get("/card", async function (req, res, next) {
-  var cardList = await cardService.getAllcards();
-  res.json({ result: "ok", cardList: cardList });
+  var result = await cardService.getAllCards();
+  res.json(result);
 });
 
 router.get("/card/:id", async function (req, res, next) {
-  var card = await cardService.getCardById(req.params.id);
-  res.json({ result: "ok", card: card });
+  var result = await cardService.getCardById(req.params.id);
+
+  res.json(result);
+});
+
+router.delete("/card/:id", async function (req, res, next) {
+  var result = await cardService.deleteCard(req.params.id);
+  res.json(result);
+});
+
+router.put("/card", async function (req, res, next) {
+  let newCard = req.body.card;
+  var result = await cardService.updateCard(newCard);
+  res.json(result);
 });
 
 module.exports = router;
