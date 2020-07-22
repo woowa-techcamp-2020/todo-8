@@ -1,11 +1,11 @@
 let db = require("../config/database.js");
-let cardModel = require("../models/card");
+let todoModel = require("../models/todo");
 
-async function createCard(cardParam) {
-  let card = new cardModel.Card(cardParam);
+async function createTodo(todoParam) {
+  let todo = new todoModel.Todo(todoParam);
 
   return new Promise((resolve, reject) => {
-    db.query("insert into card set ?", card, function (err, res) {
+    db.query("insert into todo set ?", todo, function (err, res) {
       if (err) {
         return reject(err.code);
       }
@@ -17,9 +17,9 @@ async function createCard(cardParam) {
   });
 }
 
-async function getAllCards() {
+async function getAllTodos() {
   return new Promise((resolve, reject) => {
-    db.query("select * from card", function (err, res) {
+    db.query("select * from todo", function (err, res) {
       if (err) {
         return reject(err.code);
       }
@@ -31,9 +31,9 @@ async function getAllCards() {
   });
 }
 
-async function getCardById(id) {
+async function getTodoById(id) {
   return new Promise((resolve, reject) => {
-    db.query(`select * from card WHERE id = ${id}`, function (err, res) {
+    db.query(`select * from todo WHERE id = ${id}`, function (err, res) {
       if (err) {
         reject(err.code);
       }
@@ -45,10 +45,10 @@ async function getCardById(id) {
   });
 }
 
-async function deleteCard(id) {
+async function deleteTodo(id) {
   console.log(id);
   return new Promise((resolve, reject) => {
-    db.query(`delete from card WHERE id = ?`, id, function (err, res) {
+    db.query(`delete from todo WHERE id = ?`, id, function (err, res) {
       if (err) {
         reject(err.code);
       }
@@ -60,26 +60,9 @@ async function deleteCard(id) {
   });
 }
 
-async function updateCard(card) {
-  var sql = `UPDATE card set contents= ?, updated_at=? where id =?`;
-  let data = [card.getContents(), card.getUpdatedAt(), card.getId()];
-
-  return new Promise((resolve, reject) => {
-    db.query(sql, data, function (err, res) {
-      if (err) {
-        reject(err.code);
-      }
-      console.log(res.affectedRows + " record(s) updated");
-      resolve(res);
-    });
-  }).catch(function (err) {
-    return err;
-  });
-}
 module.exports = {
-  createCard,
-  getAllCards,
-  getCardById,
-  deleteCard,
-  updateCard,
+  createTodo,
+  getAllTodos,
+  getTodoById,
+  deleteTodo,
 };

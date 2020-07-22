@@ -1,39 +1,79 @@
 async function createCard(card) {
   return await fetch("/api/card", {
     method: "POST",
-    body: JSON.stringify({
-      name: card.name,
-      column_id: card.column_id,
-      user_id: card.user_id,
-    }),
+    body: JSON.stringify(card),
     headers: { "Content-Type": "application/json" },
-  }).then(function (response) {
-    let card = response.json();
+  }).then(async function (response) {
+    let result = await response.json();
 
-    return card;
+    if (result.result === "ok") {
+      return result;
+    } else if (result.result === "fail") {
+      return result;
+    }
   });
 }
 
-async function getAllCard() {
+async function getAllCards() {
+  return await fetch("/api/card")
+    .then((res) => res.json())
+    .then((res) => {
+      if (res.result === "ok") {
+        return res.cardList;
+      } else if (res.result === "fail") {
+        return res.message;
+      }
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+async function getCardById(id) {
+  return await fetch(`/api/card/${id.id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  }).then(async function (response) {
+    let result = await response.json();
+    if (result.result == "ok") {
+      return result.card;
+    } else if (result.result == "fail") {
+      console.log(result.message);
+    }
+  });
+}
+
+async function updateCard(card) {
   return await fetch("/api/card", {
-    method: "GET",
+    method: "PUT",
+    body: JSON.stringify({ card }),
     headers: { "Content-Type": "application/json" },
-  }).then(function (response) {
-    let cardList = response.json();
-
-    return cardList;
+  }).then(async function (response) {
+    let result = await response.json();
+    if (result.result == "ok") {
+      return result.card;
+    } else if (result.result == "fail") {
+      console.log(result.message);
+    }
   });
 }
 
-async function getCardByName(name) {
-  return await fetch("/api/card/" + name, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  }).then(function (response) {
-    let card = response.json();
-
-    return card;
+async function deleteCard(id) {
+  return await fetch(`/api/card/${id.id}`, {
+    method: "DELETE",
+  }).then(async function (response) {
+    let result = await response.json();
+    if (result.result == "ok") {
+      console.log(result.message);
+    } else if (result.result == "fail") {
+      console.log(result.message);
+    }
   });
 }
-
-export default { createCard, getAllCard, getCardByName };
+export default {
+  createCard,
+  getAllCards,
+  getCardById,
+  updateCard,
+  deleteCard,
+};

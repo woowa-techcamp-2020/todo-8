@@ -1,6 +1,13 @@
-"use strict";
+var mysql = require("mysql");
+// var pool = mysql.createPool({
+//   connectionLimit: 10,
+//   host: "13.125.156.139",
+//   user: "0407chan",
+//   password: "Cxr3044!@#",
+//   database: "mydb",
+//   debug: false,
+// });
 
-const mysql = require("mysql");
 const connection = mysql.createConnection({
   host: "13.125.156.139",
   user: "0407chan",
