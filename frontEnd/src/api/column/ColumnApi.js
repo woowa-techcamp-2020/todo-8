@@ -1,7 +1,7 @@
-async function createUser(user) {
-  return await fetch("/api/users", {
+async function createColumn(column) {
+  return await fetch("/api/column", {
     method: "POST",
-    body: JSON.stringify({ userId: user.userId, password: user.password }),
+    body: JSON.stringify(column),
     headers: { "Content-Type": "application/json" },
   }).then(async function (response) {
     let result = await response.json();
@@ -14,12 +14,12 @@ async function createUser(user) {
   });
 }
 
-async function getAllUsers() {
-  return await fetch("/api/users")
+async function getAllColumns() {
+  return await fetch("/api/column")
     .then((res) => res.json())
     .then((res) => {
       if (res.result === "ok") {
-        return res.userList;
+        return res.columnList;
       } else if (res.result === "fail") {
         return res.message;
       }
@@ -29,37 +29,37 @@ async function getAllUsers() {
     });
 }
 
-async function getUserById(id) {
-  return await fetch(`/api/users/${id.id}`, {
+async function getColumnById(id) {
+  return await fetch(`/api/column/${id.id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   }).then(async function (response) {
     let result = await response.json();
     if (result.result == "ok") {
-      return result.user;
+      return result.column;
     } else if (result.result == "fail") {
       console.log(result.message);
     }
   });
 }
 
-async function updateUser(user) {
-  return await fetch("/api/users", {
+async function updateColumn(column) {
+  return await fetch("/api/column", {
     method: "PUT",
-    body: JSON.stringify({ user }),
+    body: JSON.stringify({ column }),
     headers: { "Content-Type": "application/json" },
   }).then(async function (response) {
     let result = await response.json();
     if (result.result == "ok") {
-      return result.user;
+      return result.column;
     } else if (result.result == "fail") {
       console.log(result.message);
     }
   });
 }
 
-async function deleteUser(id) {
-  return await fetch(`/api/users/${id.id}`, {
+async function deleteColumn(id) {
+  return await fetch(`/api/column/${id.id}`, {
     method: "DELETE",
   }).then(async function (response) {
     let result = await response.json();
@@ -71,9 +71,9 @@ async function deleteUser(id) {
   });
 }
 export default {
-  createUser,
-  getAllUsers,
-  getUserById,
-  updateUser,
-  deleteUser,
+  createColumn,
+  getAllColumns,
+  getColumnById,
+  updateColumn,
+  deleteColumn,
 };

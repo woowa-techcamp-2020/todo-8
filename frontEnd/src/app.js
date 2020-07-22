@@ -8,8 +8,15 @@ import appStyle from "../style/app.scss";
 import api from "./api/index.js";
 import moment from "moment";
 import card from "./components/card.js";
+import User from "./components/user.js";
 
+let currUser;
 window.addEventListener("DOMContentLoaded", async () => {
+  currUser = await api.User().getUserById({
+    id: 26,
+  });
+  console.log("현재 [", currUser.userId, "] 님이 접속했습니다");
+
   const todoBoard = document.querySelector("#app");
   const dragAndDrop = new dragService({ todoBoard });
   todoBoard.addEventListener("mousemove", dragAndDrop.mousemove);
@@ -25,16 +32,62 @@ window.addEventListener("DOMContentLoaded", async () => {
   pwField.placeholder = "PW";
   var resgitser_btn = document.createElement("BUTTON");
   resgitser_btn.innerHTML = "회원가입";
+
+  // 회원가입
   resgitser_btn.onclick = async function () {
-    console.log("id=", idField.value, "pw=", pwField.value);
-    await api.User().register({
+    let result = await api.User().createUser({
       userId: idField.value,
       password: pwField.value,
     });
+    if (result.result == "ok") {
+      currUser = result.user;
+      console.log("현재 유저는 [" + currUser.userId + "] 입니다.");
+    } else if (result.result == "fail") {
+      console.log(result.message);
+    }
+  };
+
+  // 회원삭제
+  var delete_btn = document.createElement("BUTTON");
+  delete_btn.innerHTML = "회원삭제";
+  delete_btn.onclick = async function () {
+    if (idField.value.length == 0) {
+      console.log("숫자를 입력해주세요");
+    } else {
+      await api.User().deleteUser({
+        id: idField.value,
+      });
+    }
+  };
+  // 회원수정
+  var update_btn = document.createElement("BUTTON");
+  update_btn.innerHTML = "회원수정";
+  update_btn.onclick = async function () {
+    if (idField.value.length == 0) {
+      console.log("숫자를 이름을 입력해주세요");
+    } else {
+      currUser.userId = idField.value;
+      currUser.password = pwField.value;
+      currUser = await api.User().updateUser(currUser);
+    }
+  };
+
+  // 회원 조회
+  var getUser_btn = document.createElement("BUTTON");
+  getUser_btn.innerHTML = "현재회원조회";
+  getUser_btn.onclick = async function () {
+    currUser = await api.User().getUserById({
+      id: currUser.id,
+    });
+    console.log("현재 유저는 [" + currUser.userId + "] 입니다.");
   };
   registerDiv.appendChild(idField);
   registerDiv.appendChild(pwField);
+
   registerDiv.appendChild(resgitser_btn);
+  registerDiv.appendChild(update_btn);
+  registerDiv.appendChild(getUser_btn);
+  registerDiv.appendChild(delete_btn);
 
   // 카드 추가 테스트 화면
 
@@ -44,9 +97,9 @@ window.addEventListener("DOMContentLoaded", async () => {
   cardBtn.onclick = async function () {
     console.log("이름=", idField.value);
     await api.Card().createCard({
-      name: idField.value,
+      contents: idField.value,
       column_id: 1,
-      user_id: 26,
+      user_id: currUser.id,
     });
   };
   cardDiv.appendChild(cardBtn);
