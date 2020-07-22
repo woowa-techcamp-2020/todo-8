@@ -1,12 +1,16 @@
 async function createUser(user) {
   return await fetch("/api/users", {
     method: "POST",
-    body: JSON.stringify({ userId: 123, password: "password" }),
+    body: JSON.stringify({ userId: user.userId, password: user.password }),
     headers: { "Content-Type": "application/json" },
-  }).then(function (response) {
-    let user = response.json();
+  }).then(async function (response) {
+    let result = await response.json();
 
-    return user;
+    if (result.result === "ok") {
+      return result;
+    } else if (result.result === "fail") {
+      return result;
+    }
   });
 }
 
@@ -52,4 +56,52 @@ async function getAllUsers() {
     });
 }
 
-export default { createUser, register, getAllUsers };
+async function getUserById(id) {
+  return await fetch(`/api/users/${id.id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  }).then(async function (response) {
+    let result = await response.json();
+    if (result.result == "ok") {
+      return result.user;
+    } else if (result.result == "fail") {
+      console.log(result.message);
+    }
+  });
+}
+
+async function updateUser(user) {
+  return await fetch("/api/users", {
+    method: "PUT",
+    body: JSON.stringify({ user }),
+    headers: { "Content-Type": "application/json" },
+  }).then(async function (response) {
+    let result = await response.json();
+    if (result.result == "ok") {
+      return result.user;
+    } else if (result.result == "fail") {
+      console.log(result.message);
+    }
+  });
+}
+
+async function deleteUser(id) {
+  return await fetch(`/api/users/${id.id}`, {
+    method: "DELETE",
+  }).then(async function (response) {
+    let result = await response.json();
+    if (result.result == "ok") {
+      console.log(result.message);
+    } else if (result.result == "fail") {
+      console.log(result.message);
+    }
+  });
+}
+export default {
+  createUser,
+  register,
+  getAllUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
+};
