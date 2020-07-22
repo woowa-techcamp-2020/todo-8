@@ -5,9 +5,7 @@ var cardService = require("../services/cardService.js");
 /* GET cards listing. */
 router.post("/card", async function (req, res, next) {
   var cardData = req.body;
-  console.log("cardRouter", cardData);
   var card = await cardService.createCard(cardData);
-  console.log("cardRouter", card);
   if (card === "ER_DUP_ENTRY") {
     res.json({ result: "duplicate", message: "이미 존재하는 아이디입니다" });
   } else {

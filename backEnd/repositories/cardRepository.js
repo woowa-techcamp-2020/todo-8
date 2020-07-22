@@ -30,7 +30,7 @@ async function getAllCards() {
 
 async function getCardById(id) {
   return new Promise((resolve, reject) => {
-    db.query(`select * from card WHERE id = ${id}`, function (err, res) {
+    sql.query(`select * from card WHERE id = ${id}`, function (err, res) {
       if (err) {
         reject(err.code);
       }
