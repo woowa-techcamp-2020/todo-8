@@ -1,14 +1,14 @@
 class Card {
   constructor(cardData) {
     let id;
-    let name;
+    let contents;
     let column_id;
     let user_id;
     let created_at;
     let updated_at;
 
     this.setId(cardData.id);
-    this.setName(cardData.name);
+    this.setContents(cardData.contents);
     this.setColumnId(cardData.column_id);
     this.setUserId(cardData.user_id);
     this.setCreatedAt(cardData.created_at);
@@ -22,11 +22,11 @@ class Card {
     return this.id;
   }
 
-  setName(name) {
-    this.name = name;
+  setContents(contents) {
+    this.contents = contents;
   }
-  getName() {
-    return this.name;
+  getContents() {
+    return this.contents;
   }
   setUserId(user_id) {
     this.user_id = user_id;

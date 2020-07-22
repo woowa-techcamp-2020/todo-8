@@ -97,7 +97,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   cardBtn.onclick = async function () {
     console.log("이름=", idField.value);
     await api.Card().createCard({
-      name: idField.value,
+      contents: idField.value,
       column_id: 1,
       user_id: currUser.id,
     });

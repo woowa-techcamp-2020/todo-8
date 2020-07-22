@@ -1,11 +1,11 @@
 let db = require("../config/database.js");
-let cardModel = require("../models/card");
+const { Column } = require("../models/column");
 
-async function createCard(cardParam) {
-  let card = new cardModel.Card(cardParam);
+async function createColumn(columnParam) {
+  let column = new Column(columnParam);
 
   return new Promise((resolve, reject) => {
-    db.query("insert into card set ?", card, function (err, res) {
+    db.query("insert into column set ?", column, function (err, res) {
       if (err) {
         return reject(err.code);
       }
@@ -17,9 +17,9 @@ async function createCard(cardParam) {
   });
 }
 
-async function getAllCards() {
+async function getAllColumns() {
   return new Promise((resolve, reject) => {
-    db.query("select * from card", function (err, res) {
+    db.query("select * from column", function (err, res) {
       if (err) {
         return reject(err.code);
       }
@@ -31,9 +31,9 @@ async function getAllCards() {
   });
 }
 
-async function getCardById(id) {
+async function getColumnById(id) {
   return new Promise((resolve, reject) => {
-    db.query(`select * from card WHERE id = ${id}`, function (err, res) {
+    db.query(`select * from column WHERE id = ${id}`, function (err, res) {
       if (err) {
         reject(err.code);
       }
@@ -45,10 +45,10 @@ async function getCardById(id) {
   });
 }
 
-async function deleteCard(id) {
+async function deleteColumn(id) {
   console.log(id);
   return new Promise((resolve, reject) => {
-    db.query(`delete from card WHERE id = ?`, id, function (err, res) {
+    db.query(`delete from column WHERE id = ?`, id, function (err, res) {
       if (err) {
         reject(err.code);
       }
@@ -60,9 +60,9 @@ async function deleteCard(id) {
   });
 }
 
-async function updateCard(card) {
-  var sql = `UPDATE card set contents= ?, updated_at=? where id =?`;
-  let data = [card.getContents(), card.getUpdatedAt(), card.getId()];
+async function updateColumn(column) {
+  var sql = `UPDATE column set title= ?, updated_at=? where id =?`;
+  let data = [column.getTitle(), column.getUpdatedAt(), column.getId()];
 
   return new Promise((resolve, reject) => {
     db.query(sql, data, function (err, res) {
@@ -77,9 +77,9 @@ async function updateCard(card) {
   });
 }
 module.exports = {
-  createCard,
-  getAllCards,
-  getCardById,
-  deleteCard,
-  updateCard,
+  createColumn,
+  getAllColumns,
+  getColumnById,
+  deleteColumn,
+  updateColumn,
 };
