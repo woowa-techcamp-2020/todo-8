@@ -13,7 +13,7 @@ function isBefore(element1, element2) {
 }
 
 export default class dragService {
-  constructor({ targetEl }) {
+  constructor() {
     this.clicked = false;
     this.hoveringElement = undefined;
     this.targetElement = undefined;
@@ -97,6 +97,9 @@ export default class dragService {
     if (this.hoveringElement) {
       this.hoveringElement.remove();
     }
+    document.getElementsByClassName("temp").forEach(element => {
+      element.remove();
+    });
     this.hoveringElement = undefined;
     this.targetElement = undefined;
   }
@@ -105,6 +108,9 @@ export default class dragService {
     if (!this.clicked) {
       return;
     }
-    mouseup();
+
+    () => {
+      this.mouseup();
+    }
   }
 }
