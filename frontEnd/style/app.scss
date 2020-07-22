@@ -7,6 +7,8 @@
 }
 
 ul {
+  position: relative;
+
   &.list {
     width: 300px;
     height: auto;
@@ -23,9 +25,8 @@ li {
     padding: 10px;
     margin: 10px 0 10px 0;
     width: 280px;
-    background-color: #dddddd;
+    background-color: #fff;
     border-radius: 10px;
-    text-align: center;
     color: #000;
     user-select: none;
     cursor: pointer;
@@ -34,6 +35,12 @@ li {
   &.start {
     font-size: large;
     list-style: none;
+    display: flex;
+    min-height: 30px;
+
+    p {
+      line-height: 30px;
+    }
   }
 }
 
@@ -41,10 +48,72 @@ li {
   position: absolute;
   padding: 0;
   margin: 0;
+  z-index: 10;
 
   transform: scale(1.2);
 }
 
 .temp {
   opacity: 0.5;
+}
+
+.listButtons {
+  position: absolute;
+  right: 0;
+  vertical-align: middle;
+  font-size: smaller;
+  button {
+    min-height: 30px;
+    min-width: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    border-width: 0px;
+    &:hover {
+      background-color: darkgray;
+    }
+  }
+}
+
+.add-card-modal {
+  textarea {
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  button {
+    width: calc(50% - 2px);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    &:focus {
+      outline: 0;
+    }
+
+    &.add-card-modal-add-button {
+      margin-right: 2px;
+      background-color: green;
+      color: white;
+
+      &:active {
+        background-color: darkgreen;
+      }
+    }
+    &.add-card-modal-cancel-button {
+      margin-left: 2px;
+      background-color: gray;
+      color: white;
+
+      &:active {
+        background-color: darkgray;
+      }
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import MainService from "./lib/mainService.js";
 import userService from "./lib/userService.js";
 import dragService from "./lib/dragService.js";
+import listService from "./lib/listService.js";
 
 import indexStyle from "../style/index.scss";
 import appStyle from "../style/app.scss";
@@ -18,11 +19,18 @@ window.addEventListener("DOMContentLoaded", async () => {
   console.log("현재 [", currUser.userId, "] 님이 접속했습니다");
 
   const todoBoard = document.querySelector("#app");
-  const dragAndDrop = new dragService({ todoBoard });
-  todoBoard.addEventListener("mousemove", dragAndDrop.mousemove);
-  todoBoard.addEventListener("mousedown", dragAndDrop.mousedown);
-  todoBoard.addEventListener("mouseup", dragAndDrop.mouseup);
-  todoBoard.addEventListener("mouseleave", dragAndDrop.mouseleave);
+  const dragServiceProvider = new dragService();
+  todoBoard.addEventListener("mousemove", dragServiceProvider.mousemove);
+  todoBoard.addEventListener("mousedown", dragServiceProvider.mousedown);
+  todoBoard.addEventListener("mouseup", dragServiceProvider.mouseup);
+  todoBoard.addEventListener("mouseleave", dragServiceProvider.mouseleave);
+
+  const listServiceProvider = new listService();
+
+  document.querySelectorAll(".list").forEach(list => {
+    listServiceProvider.addlistButtonsTo(list);
+    listServiceProvider.hideAddCardModal(list);
+  });
 
   // 회원가입 테스트 화면
   var registerDiv = document.createElement("div");
