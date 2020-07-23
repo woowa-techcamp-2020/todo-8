@@ -2,13 +2,13 @@ class Column {
   constructor(columnData) {
     let id;
     let title;
-    let todo_id;
+    let todoList_id;
     let created_at;
     let updated_at;
 
     this.setId(columnData.id);
     this.setTitle(columnData.title);
-    this.setTodoId(columnData.todo_id);
+    this.setTodoId(columnData.todoList_id);
     this.setCreatedAt(columnData.created_at);
     this.setUpdatedAt(columnData.updated_at);
   }
@@ -26,11 +26,11 @@ class Column {
   getTitle() {
     return this.title;
   }
-  setTodoId(todo_id) {
-    this.todo_id = todo_id;
+  setTodoId(todoList_id) {
+    this.todoList_id = todoList_id;
   }
   getTodoId() {
-    return this.todo_id;
+    return this.todoList_id;
   }
 
   setPassword(password) {
