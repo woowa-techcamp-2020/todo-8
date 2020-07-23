@@ -20,8 +20,8 @@ function columnService() {
             <div class="card-list-wrapper">
             ${model.cards
               .map(
-                (card) => `<li class="card ${card.id}"><div ">
-                <div>
+                (card) => `<li class="card ${card.id}"><div>
+                <div class="card-contents">
                     ${card.contents}
                 </div>
                 <div>
@@ -35,9 +35,10 @@ function columnService() {
       },
       async controller(model) {
         const cards = await api.Card().getCardByColumnId(col.column_id);
-        model.cards = cards;
-        column.updateView();
-
+        if (cards) {
+          model.cards = cards;
+          column.updateView();
+        }
         let listServiceInstance = new listService();
         listServiceInstance.addlistButtonsTo(column.columnElement);
         listServiceInstance.hideAddCardModal(column.columnElement);

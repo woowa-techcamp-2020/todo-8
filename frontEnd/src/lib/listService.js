@@ -79,20 +79,29 @@ export default class listService {
 
   async addCard(content, todoList) {
     if (content === "") return;
-    console.log("gdgd", todoList);
     this.hideAddCardModal(todoList, true);
 
-    let newCard = document.createElement("li");
-    newCard.classList.add("card");
-    newCard.innerHTML = `<p>${content}</p>`;
-
-    console.log("여기에 DB로 쏠 코드 들어가면 됨.", content);
-
-    await api.Card().createCard({
+    let card = await api.Card().createCard({
       contents: content,
-      column_id: 1,
+      column_id: todoList.id.split("-")[1],
       user_id: store.state.currUser.id,
     });
+    console.log("card 결과", card.data);
+
+    let newCard = document.createElement("li");
+    let name = "card " + card.data.id;
+    console.log(card.data);
+    newCard.className = name;
+    newCard.innerHTML = `<div>
+                          <div class="card-contents">
+                              ${card.data.contents}
+                          </div>
+                          <div>
+                              <span class="card-des">Addad by</span> <span class="card-user">${card.data.userId}</span>
+                          </div>
+                      </div>`;
+
+    console.log("여기에 DB로 쏠 코드 들어가면 됨.", newCard);
 
     todoList.insertBefore(
       newCard,

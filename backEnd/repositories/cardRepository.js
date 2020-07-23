@@ -78,13 +78,19 @@ async function getCardByColumnId(id) {
 
 async function getCardById(id) {
   return new Promise((resolve, reject) => {
-    db.query(`select * from card WHERE id = ${id}`, function (err, res) {
-      if (err) {
-        reject(err.code);
+    db.query(
+      `select card.id as id, card.contents as contents, card.created_at as created_at, card.order as 'order', card.column_id as column_id, card.user_id as user_id, user.userId as userId
+    from mydb.card as card
+      left join user
+        on mydb.card.user_id = user.id where card.id = ${id}`,
+      function (err, res) {
+        if (err) {
+          reject(err.code);
+        }
+        console.log(res.affectedRows + " record(s) selected");
+        resolve(res);
       }
-      console.log(res.affectedRows + " record(s) selected");
-      resolve(res);
-    });
+    );
   }).catch(function (err) {
     return err;
   });
@@ -106,8 +112,13 @@ async function deleteCard(id) {
 }
 
 async function updateCard(card) {
-  var sql = `UPDATE card set contents= ?, updated_at=? where id =?`;
-  let data = [card.getContents(), card.getUpdatedAt(), card.getId()];
+  var sql = `UPDATE card set contents= ?, column_id= ?, updated_at=? where id =?`;
+  let data = [
+    card.getContents(),
+    card.getColumnId(),
+    card.getUpdatedAt(),
+    card.getId(),
+  ];
 
   return new Promise((resolve, reject) => {
     db.query(sql, data, function (err, res) {

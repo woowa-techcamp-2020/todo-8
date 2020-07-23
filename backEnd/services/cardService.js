@@ -66,6 +66,8 @@ async function updateCard(params) {
     let cardDTO = new Card(tempCard[0]);
     cardDTO.setUpdatedAt(moment().format("YYYY-MM-DD HH:mm:ss"));
     cardDTO.setContents(params.new_contents);
+    cardDTO.setColumnId(params.new_column_id);
+    console.log(cardDTO);
 
     await cardRepo.updateCard(cardDTO);
     let card = await cardRepo.getCardById(cardDTO.getId());

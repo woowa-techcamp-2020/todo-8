@@ -5,7 +5,7 @@ import columnService from "../lib/columnService";
 let hover = document.querySelector(".hover");
 let shift = { x: 0, y: 0 };
 let clicks = 0,
-  delay = 300;
+  delay = 200;
 
 function isBefore(element1, element2) {
   if (element2.parentNode === element1.parentNode) {
@@ -27,6 +27,7 @@ export default class cardService {
     this.clicked = false;
     this.hoveringElement = undefined;
     this.targetElement = undefined;
+    this.currTarget = undefined;
   }
 
   mousemove(event) {
@@ -87,6 +88,7 @@ export default class cardService {
   }
 
   mousedown(event) {
+    this.currTarget = event.target;
     let mouseDownedCard = event.target.closest("li");
     if (mouseDownedCard === null) return;
     let mouseDownedCardContent = mouseDownedCard.querySelector("div");
@@ -144,7 +146,14 @@ export default class cardService {
     }
   }
 
-  mouseup() {
+  async mouseup() {
+    if (this.currTarget.className == "card-list-wrapper") {
+      return;
+    }
+    if (!this.targetElement) {
+      return;
+    }
+
     this.clicked = false;
     if (this.targetElement) {
       this.targetElement.classList.remove("temp");
@@ -155,6 +164,12 @@ export default class cardService {
     document.getElementsByClassName("temp").forEach((element) => {
       element.remove();
     });
+    let params = {
+      card_id: this.targetElement.className.split(" ")[1],
+      new_contents: this.targetElement.childNodes[0].childNodes[1].innerText,
+      new_column_id: this.targetElement.parentNode.parentNode.id.split("-")[1],
+    };
+    await Api.Card().updateCard(params);
 
     this.hoveringElement = undefined;
     this.targetElement = undefined;
