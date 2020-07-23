@@ -1,14 +1,9 @@
 import api from "../api/index";
-import Column from "../components/Column";
 import store from "../store/index";
 
 export default class listService {
   constructor() {
     this.addCardModalShown = false;
-  }
-
-  updateCardCount(todoList) {
-    todoList.querySelector(".card-count").innerText = todoList.querySelectorAll(".card").length;
   }
 
   addlistButtonsTo(todoList) {
@@ -39,6 +34,7 @@ export default class listService {
 
     listButtons.appendChild(addCardButton);
     listButtons.appendChild(showListOptionButton);
+
     todoList.querySelector(".start").append(listButtons);
     todoList.insertBefore(
       addCardModal,
@@ -83,7 +79,7 @@ export default class listService {
 
   async addCard(content, todoList) {
     if (content === "") return;
-
+    console.log("gdgd", todoList);
     this.hideAddCardModal(todoList, true);
 
     let newCard = document.createElement("li");
