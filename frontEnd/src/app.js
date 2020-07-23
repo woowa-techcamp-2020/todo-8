@@ -22,15 +22,17 @@ window.addEventListener("DOMContentLoaded", async () => {
   document.addEventListener('contextmenu', event => event.preventDefault());
 
   const cardServiceProvider = new cardService();
+  const listServiceProvider = new listService();
+
   todoBoard.addEventListener("mousemove", cardServiceProvider.mousemove);
   todoBoard.addEventListener("mousedown", cardServiceProvider.mousedown);
   todoBoard.addEventListener("mouseup", cardServiceProvider.mouseup);
   todoBoard.addEventListener("mouseleave", cardServiceProvider.mouseleave);
 
-  const listServiceProvider = new listService();
   document.querySelectorAll(".list").forEach(list => {
     listServiceProvider.addlistButtonsTo(list);
     listServiceProvider.hideAddCardModal(list);
+    listServiceProvider.updateCardCount(list);
   });
 
   // 회원가입 테스트 화면
