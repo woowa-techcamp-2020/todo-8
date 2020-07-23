@@ -70,9 +70,8 @@ export default class cardService {
 
   mousedown(event) {
     let mouseDownedCard = event.target.closest("li");
-    if (mouseDownedCard === null || mouseDownedCard.className === "start") {
-      return;
-    }
+    let mouseDownedCardContent = mouseDownedCard.querySelector("p");
+    if (mouseDownedCard === null) { console.log("조건 1"); return; }
     event.preventDefault();
     clicks++;
     setTimeout(function () {
@@ -81,15 +80,19 @@ export default class cardService {
 
     if (clicks >= 2) {
       console.log(mouseDownedCard);
-      let input = prompt(`Edit Card "${mouseDownedCard.innerText}"`);
+      let input = prompt(`Edit "${mouseDownedCardContent.innerText}" to...`);
       console.log(input);
       if (input) {
-        mouseDownedCard.innerText = input;
+        mouseDownedCardContent.innerText = input;
         console.log("여기에 DB로 쏠 코드 넣으면 됨:", input);
       }
       clicks = 0;
       return;
     } else {
+      if (mouseDownedCard === null || mouseDownedCard.className === "start") {
+        console.log("조건 2")
+        return;
+      }
       this.clicked = true;
       this.targetElement = mouseDownedCard;
       this.hoveringElement = mouseDownedCard.cloneNode(true);
