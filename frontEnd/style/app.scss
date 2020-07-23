@@ -10,12 +10,14 @@ ul {
   position: relative;
 
   &.list {
-    width: 300px;
+    min-width: 300px;
     height: auto;
     margin: 10px;
     padding: 10px;
     background-color: #eeeeee;
     border-radius: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }
 
