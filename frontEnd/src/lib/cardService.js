@@ -70,10 +70,10 @@ export default class cardService {
 
   mousedown(event) {
     let mouseDownedCard = event.target.closest("li");
+    if (mouseDownedCard === null) return;
     let mouseDownedCardContent = mouseDownedCard.querySelector("p");
-    if (mouseDownedCard === null) { console.log("조건 1"); return; }
     event.preventDefault();
-    clicks++;
+    clicks++; d
     setTimeout(function () {
       clicks = 0;
     }, delay);
@@ -90,7 +90,6 @@ export default class cardService {
       return;
     } else {
       if (mouseDownedCard === null || mouseDownedCard.className === "start") {
-        console.log("조건 2")
         return;
       }
       this.clicked = true;
@@ -120,6 +119,7 @@ export default class cardService {
     document.getElementsByClassName("temp").forEach(element => {
       element.remove();
     });
+
     this.hoveringElement = undefined;
     this.targetElement = undefined;
   }
@@ -132,9 +132,5 @@ export default class cardService {
     () => {
       this.mouseup();
     }
-  }
-
-  mousedblclcick() {
-    console.log("무언가 더블클릭됨.");
   }
 }
