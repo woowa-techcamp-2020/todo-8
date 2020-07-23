@@ -1,7 +1,7 @@
 import MainService from "./lib/mainService.js";
 import userService from "./lib/userService.js";
-import dragService from "./lib/dragService.js";
-import listService from "./lib/listService.js";
+import cardService from "./lib/cardService.js";
+import listService from "./lib/listService.js"
 
 import indexStyle from "../style/index.scss";
 import appStyle from "../style/app.scss";
@@ -19,14 +19,15 @@ window.addEventListener("DOMContentLoaded", async () => {
   console.log("현재 [", currUser.userId, "] 님이 접속했습니다");
 
   const todoBoard = document.querySelector("#app");
-  const dragServiceProvider = new dragService();
-  todoBoard.addEventListener("mousemove", dragServiceProvider.mousemove);
-  todoBoard.addEventListener("mousedown", dragServiceProvider.mousedown);
-  todoBoard.addEventListener("mouseup", dragServiceProvider.mouseup);
-  todoBoard.addEventListener("mouseleave", dragServiceProvider.mouseleave);
+  document.addEventListener('contextmenu', event => event.preventDefault());
+
+  const cardServiceProvider = new cardService();
+  todoBoard.addEventListener("mousemove", cardServiceProvider.mousemove);
+  todoBoard.addEventListener("mousedown", cardServiceProvider.mousedown);
+  todoBoard.addEventListener("mouseup", cardServiceProvider.mouseup);
+  todoBoard.addEventListener("mouseleave", cardServiceProvider.mouseleave);
 
   const listServiceProvider = new listService();
-
   document.querySelectorAll(".list").forEach(list => {
     listServiceProvider.addlistButtonsTo(list);
     listServiceProvider.hideAddCardModal(list);

@@ -10,12 +10,14 @@ ul {
   position: relative;
 
   &.list {
-    width: 300px;
+    min-width: 300px;
     height: auto;
     margin: 10px;
     padding: 10px;
     background-color: #eeeeee;
     border-radius: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }
 
@@ -30,6 +32,7 @@ li {
     color: #000;
     user-select: none;
     cursor: pointer;
+    word-wrap: break-word;
   }
 
   &.start {
@@ -49,8 +52,8 @@ li {
   padding: 0;
   margin: 0;
   z-index: 10;
-
-  transform: scale(1.2);
+  transform: scale(1.1);
+  opacity: 0.5;
 }
 
 .temp {
@@ -73,6 +76,9 @@ li {
     border-width: 0px;
     &:hover {
       background-color: darkgray;
+    }
+    &:focus {
+      outline: 0;
     }
   }
 }

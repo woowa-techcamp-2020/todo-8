@@ -71,7 +71,6 @@ export default class listService {
 
   hideAddCardModal(todoList, deleteOk = false) {
     let ta = todoList.querySelector(".add-card-modal-textarea");
-    console.log(todoList);
     if (!deleteOk && ta.value) {
       deleteOk = confirm("입력되신 내용이 저장되지 않았습니다. 계속하시겠습니까?");
     } else {
