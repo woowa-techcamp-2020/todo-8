@@ -101,25 +101,36 @@ ul {
     overflow-y: scroll;
     overflow-x: hidden; }
 
-li.card {
-  list-style: none;
-  padding: 10px;
-  margin: 10px 0 10px 0;
-  width: 280px;
-  background-color: #fff;
-  border-radius: 10px;
-  color: #000;
-  user-select: none;
+li {
   cursor: pointer;
-  word-wrap: break-word; }
-
-li.start {
-  font-size: large;
-  list-style: none;
-  display: flex;
-  min-height: 30px; }
-  li.start p {
-    line-height: 30px; }
+  list-style: none; }
+  li.card {
+    padding: 10px;
+    margin: 10px 0 10px 0;
+    width: 280px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid gray;
+    color: #000;
+    user-select: none;
+    word-wrap: break-word; }
+  li.start {
+    display: flex;
+    min-height: 30px; }
+    li.start p {
+      line-height: 30px; }
+    li.start div.card-count {
+      border: 1px solid gray;
+      min-width: 22px;
+      min-height: 25px;
+      border-radius: 50px;
+      margin-right: 10px;
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-left: 3px;
+      padding-right: 3px; }
 
 .hover {
   position: absolute;
