@@ -57,9 +57,9 @@ a {
 #sidebar {
   height: calc(100vh - 58px);
   overflow-y: scroll;
-  background: white;
   float: right;
   right: 0;
+  background: white;
   color: black;
   width: 300px;
   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.25);
@@ -92,12 +92,14 @@ a {
 ul {
   position: relative; }
   ul.list {
-    width: 300px;
+    min-width: 300px;
     height: auto;
     margin: 10px;
     padding: 10px;
     background-color: #eeeeee;
-    border-radius: 10px; }
+    border-radius: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden; }
 
 li.card {
   list-style: none;
