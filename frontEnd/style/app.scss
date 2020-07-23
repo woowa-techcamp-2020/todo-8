@@ -30,6 +30,9 @@ li {
     color: #000;
     user-select: none;
     cursor: pointer;
+    &-user {
+      font-weight: bold;
+    }
   }
 
   &.start {
@@ -41,6 +44,26 @@ li {
     p {
       line-height: 30px;
     }
+  }
+}
+
+.card {
+  list-style: none;
+  padding: 10px;
+  margin: 10px 0 10px 0;
+  width: 280px;
+  background-color: #fff;
+  border-radius: 10px;
+  color: #000;
+  user-select: none;
+  cursor: pointer;
+  &-user {
+    font-weight: bold;
+    font-size: 13px;
+  }
+  &-des {
+    color: grey;
+    font-size: 13px;
   }
 }
 
