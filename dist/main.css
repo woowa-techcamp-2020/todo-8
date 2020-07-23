@@ -110,7 +110,8 @@ li.card {
   border-radius: 10px;
   color: #000;
   user-select: none;
-  cursor: pointer; }
+  cursor: pointer;
+  word-wrap: break-word; }
 
 li.start {
   font-size: large;
@@ -125,7 +126,8 @@ li.start {
   padding: 0;
   margin: 0;
   z-index: 10;
-  transform: scale(1.2); }
+  transform: scale(1.1);
+  opacity: 0.5; }
 
 .temp {
   opacity: 0.5; }
@@ -146,6 +148,8 @@ li.start {
     border-width: 0px; }
     .listButtons button:hover {
       background-color: darkgray; }
+    .listButtons button:focus {
+      outline: 0; }
 
 .add-card-modal textarea {
   width: 100%;
