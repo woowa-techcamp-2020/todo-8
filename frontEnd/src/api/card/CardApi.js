@@ -57,10 +57,10 @@ async function getCardByColumnId(id) {
   });
 }
 
-async function updateCard(card) {
+async function updateCard(params) {
   return await fetch("/api/card", {
     method: "PUT",
-    body: JSON.stringify({ card }),
+    body: JSON.stringify({ params }),
     headers: { "Content-Type": "application/json" },
   }).then(async function (response) {
     let result = await response.json();

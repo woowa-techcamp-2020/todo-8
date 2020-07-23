@@ -58,23 +58,21 @@ async function deleteCard(id) {
   }
 }
 
-async function updateCard(newCard) {
-  let card = await cardRepo.getCardById(newCard.id);
-
-  if (card.length == 0) {
+async function updateCard(params) {
+  let tempCard = await cardRepo.getCardById(params.card_id);
+  if (tempCard.length == 0) {
     return { result: "fail", message: "존재하지 않는 카드입니다." };
   } else {
-    newCard.updated_at = moment().format("YYYY-MM-DD HH:mm:ss");
-    let cardDTO = new Card(newCard);
+    let cardDTO = new Card(tempCard[0]);
+    cardDTO.setUpdatedAt(moment().format("YYYY-MM-DD HH:mm:ss"));
+    cardDTO.setContents(params.new_contents);
 
     await cardRepo.updateCard(cardDTO);
-
     let card = await cardRepo.getCardById(cardDTO.getId());
-
     return {
       result: "ok",
-      message: `${cardDTO.getCardId()} 정보를 수정했습니다.`,
-      card: card[0],
+      message: `${cardDTO.getId()} 정보를 수정했습니다.`,
+      data: card[0],
     };
   }
 }

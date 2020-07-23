@@ -5,7 +5,7 @@ async function createColumn(columnParam) {
   let column = new Column(columnParam);
 
   return new Promise((resolve, reject) => {
-    db.query("insert into column set ?", column, function (err, res) {
+    db.query("insert into mydb.column set ?", column, function (err, res) {
       if (err) {
         return reject(err.code);
       }
@@ -19,7 +19,7 @@ async function createColumn(columnParam) {
 
 async function getAllColumns() {
   return new Promise((resolve, reject) => {
-    db.query("select * from column", function (err, res) {
+    db.query("select * from mydb.column", function (err, res) {
       if (err) {
         return reject(err.code);
       }
@@ -33,11 +33,11 @@ async function getAllColumns() {
 
 async function getColumnById(id) {
   return new Promise((resolve, reject) => {
-    db.query(`select * from column WHERE id = ${id}`, function (err, res) {
+    db.query(`select * from mydb.column WHERE id = ${id}`, function (err, res) {
       if (err) {
         reject(err.code);
       }
-      console.log(res.affectedRows + " record(s) selected");
+      console.log(res + " record(s) selected");
       resolve(res);
     });
   }).catch(function (err) {
@@ -46,9 +46,8 @@ async function getColumnById(id) {
 }
 
 async function deleteColumn(id) {
-  console.log(id);
   return new Promise((resolve, reject) => {
-    db.query(`delete from column WHERE id = ?`, id, function (err, res) {
+    db.query(`delete from mydb.column WHERE id = ?`, id, function (err, res) {
       if (err) {
         reject(err.code);
       }
@@ -61,7 +60,7 @@ async function deleteColumn(id) {
 }
 
 async function updateColumn(column) {
-  var sql = `UPDATE column set title= ?, updated_at=? where id =?`;
+  var sql = `UPDATE mydb.column set title= ?, updated_at=? where id =?`;
   let data = [column.getTitle(), column.getUpdatedAt(), column.getId()];
 
   return new Promise((resolve, reject) => {
@@ -69,7 +68,7 @@ async function updateColumn(column) {
       if (err) {
         reject(err.code);
       }
-      console.log(res.affectedRows + " record(s) updated");
+      console.log(res + " record(s) updated");
       resolve(res);
     });
   }).catch(function (err) {

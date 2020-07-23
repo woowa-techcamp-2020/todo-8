@@ -27,14 +27,14 @@ class Todo {
   proxify(model) {
     return new Proxy(model, {
       set: (target, property, value) => {
-        console.log(
-          "changing",
-          property,
-          "from",
-          target[property],
-          "to",
-          value
-        );
+        // console.log(
+        //   "changing",
+        //   property,
+        //   "from",
+        //   target[property],
+        //   "to",
+        //   value
+        // );
         target[property] = value;
         this.updateView();
         return true;

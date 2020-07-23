@@ -1,7 +1,11 @@
+import Store from "../store/index";
+import Api from "../api/index";
+import columnService from "../lib/columnService";
+
 let hover = document.querySelector(".hover");
 let shift = { x: 0, y: 0 };
 let clicks = 0,
-  delay = 400;
+  delay = 300;
 
 function isBefore(element1, element2) {
   if (element2.parentNode === element1.parentNode) {
@@ -39,6 +43,8 @@ export default class cardService {
     const ul = elemBelow.closest("ul"); // 가장 가까운 카드
     hover.hidden = false;
 
+    // console.log("li", li);
+    // console.log("ul", ul);
     // 마우스가 움직일 때마다 호버가 마우스를 따라다니도록 만드는 것.
     hover.style.left = pageX - shift["x"] + "px";
     hover.style.top = pageY - shift["y"] - 10 + "px";
@@ -58,7 +64,12 @@ export default class cardService {
           // 만약 지금 마우스의 위치가 start 아래에 있다면
         } else {
           // 리스트 마지막에 넣는다.
-          ul.appendChild(this.targetElement);
+          ul.childNodes[3].appendChild(this.targetElement);
+
+          /**
+           *
+           * 여기서 무브 이벤트 줘야함
+           */
         }
       }
     }
@@ -70,13 +81,15 @@ export default class cardService {
     } else if (li.parentNode) {
       // start 카드 다음에 넣는다.
       li.parentNode.insertBefore(this.targetElement, li.nextSibling);
+    } else if (li.parentNode.className == "card-list-wrapper") {
+      console.log("옹향캬햨햨햐");
     }
   }
 
   mousedown(event) {
     let mouseDownedCard = event.target.closest("li");
     if (mouseDownedCard === null) return;
-    let mouseDownedCardContent = mouseDownedCard.querySelector("p");
+    let mouseDownedCardContent = mouseDownedCard.querySelector("div");
     event.preventDefault();
     clicks++;
     setTimeout(function () {
@@ -84,15 +97,31 @@ export default class cardService {
     }, delay);
 
     if (clicks >= 2) {
-      console.log(mouseDownedCard);
-      let input = prompt(`Edit "${mouseDownedCardContent.innerText}" to...`);
-      console.log(input);
-      if (input) {
-        mouseDownedCardContent.innerText = input;
-        console.log("여기에 DB로 쏠 코드 넣으면 됨:", input);
+      if (mouseDownedCard.className === "start") {
+        mouseDownedCardContent = mouseDownedCard.querySelector("span");
+        let column_id = event.target.closest("li").parentNode.id.split("-")[1];
+        let input = prompt(`Edit "${mouseDownedCardContent.innerText}" to...`);
+        if (input) {
+          let params = {
+            column_id,
+            new_title: input,
+          };
+          Api.Column().updateColumn(params);
+        }
+        clicks = 0;
+      } else {
+        let card_id = event.target.closest("li").className.split(" ")[1];
+        let input = prompt(`Edit "${mouseDownedCardContent.innerText}" to...`);
+        if (input) {
+          let params = {
+            card_id,
+            new_contents: input,
+          };
+          Api.Card().updateCard(params);
+        }
+        clicks = 0;
+        return;
       }
-      clicks = 0;
-      return;
     } else {
       if (mouseDownedCard === null || mouseDownedCard.className === "start") {
         return;

@@ -43,10 +43,10 @@ async function getColumnById(id) {
   });
 }
 
-async function updateColumn(column) {
+async function updateColumn(params) {
   return await fetch("/api/column", {
     method: "PUT",
-    body: JSON.stringify({ column }),
+    body: JSON.stringify({ params }),
     headers: { "Content-Type": "application/json" },
   }).then(async function (response) {
     let result = await response.json();

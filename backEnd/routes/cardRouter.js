@@ -33,8 +33,8 @@ router.delete("/card/:id", async function (req, res, next) {
 });
 
 router.put("/card", async function (req, res, next) {
-  let newCard = req.body.card;
-  var result = await cardService.updateCard(newCard);
+  let params = req.body.params;
+  var result = await cardService.updateCard(params);
   res.json(result);
 });
 
