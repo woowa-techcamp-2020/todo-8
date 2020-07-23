@@ -19,7 +19,7 @@ async function getAllColumns() {
     .then((res) => res.json())
     .then((res) => {
       if (res.result === "ok") {
-        return res.columnList;
+        return res.data;
       } else if (res.result === "fail") {
         return res.message;
       }
@@ -36,7 +36,7 @@ async function getColumnById(id) {
   }).then(async function (response) {
     let result = await response.json();
     if (result.result == "ok") {
-      return result.column;
+      return result.data;
     } else if (result.result == "fail") {
       console.log(result.message);
     }
@@ -51,7 +51,7 @@ async function updateColumn(column) {
   }).then(async function (response) {
     let result = await response.json();
     if (result.result == "ok") {
-      return result.column;
+      return result.data;
     } else if (result.result == "fail") {
       console.log(result.message);
     }
