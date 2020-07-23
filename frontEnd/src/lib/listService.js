@@ -3,6 +3,10 @@ export default class listService {
     this.addCardModalShown = false;
   }
 
+  updateCardCount(todoList) {
+    todoList.querySelector(".card-count").innerText = todoList.querySelectorAll(".card").length;
+  }
+
   addlistButtonsTo(todoList) {
     const listButtons = document.createElement("span");
     listButtons.classList.add("listButtons");
