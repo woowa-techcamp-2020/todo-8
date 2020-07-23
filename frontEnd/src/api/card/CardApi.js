@@ -19,7 +19,7 @@ async function getAllCards() {
     .then((res) => res.json())
     .then((res) => {
       if (res.result === "ok") {
-        return res.cardList;
+        return res.data;
       } else if (res.result === "fail") {
         return res.message;
       }
@@ -36,7 +36,21 @@ async function getCardById(id) {
   }).then(async function (response) {
     let result = await response.json();
     if (result.result == "ok") {
-      return result.card;
+      return result.data;
+    } else if (result.result == "fail") {
+      console.log(result.message);
+    }
+  });
+}
+
+async function getCardByColumnId(id) {
+  return await fetch(`/api/card/column/${id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  }).then(async function (response) {
+    let result = await response.json();
+    if (result.result == "ok") {
+      return result.data;
     } else if (result.result == "fail") {
       console.log(result.message);
     }
@@ -51,7 +65,7 @@ async function updateCard(card) {
   }).then(async function (response) {
     let result = await response.json();
     if (result.result == "ok") {
-      return result.card;
+      return result.data;
     } else if (result.result == "fail") {
       console.log(result.message);
     }
@@ -76,4 +90,5 @@ export default {
   getCardById,
   updateCard,
   deleteCard,
+  getCardByColumnId,
 };
