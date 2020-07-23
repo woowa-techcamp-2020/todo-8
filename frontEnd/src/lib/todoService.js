@@ -14,8 +14,7 @@ todoList.addComponent({
           .map(
             (col) => `
             <ul class="list" id="column-${col.column_id}">
-            </ul>
-                    `
+            </ul>`
           )
           .join("")}
       `;
@@ -24,7 +23,6 @@ todoList.addComponent({
     const columns = await api.Todo().getTodoById(store.state.currUser.id);
 
     model.columns = columns;
-
     store.dispatch("setColumns", columns);
     todoList.updateView();
   },

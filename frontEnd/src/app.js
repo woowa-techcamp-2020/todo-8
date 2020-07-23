@@ -1,14 +1,10 @@
-import MainService from "./lib/mainService.js";
-import userService from "./lib/userService.js";
 import cardService from "./lib/cardService.js";
-import listService from "./lib/listService.js";
 
 import indexStyle from "../style/index.scss";
 import appStyle from "../style/app.scss";
 
 import api from "./api/index.js";
 import moment from "moment";
-import User from "./components/user.js";
 import store from "./store/index";
 import todoService from "./lib/todoService";
 import columnService from "./lib/columnService";
@@ -30,18 +26,11 @@ window.addEventListener("DOMContentLoaded", async () => {
   document.addEventListener("contextmenu", (event) => event.preventDefault());
 
   const cardServiceProvider = new cardService();
-  const listServiceProvider = new listService();
 
   todoBoard.addEventListener("mousemove", cardServiceProvider.mousemove);
   todoBoard.addEventListener("mousedown", cardServiceProvider.mousedown);
   todoBoard.addEventListener("mouseup", cardServiceProvider.mouseup);
   todoBoard.addEventListener("mouseleave", cardServiceProvider.mouseleave);
-
-  document.querySelectorAll(".list").forEach((list) => {
-    listServiceProvider.addlistButtonsTo(list);
-    listServiceProvider.hideAddCardModal(list);
-    listServiceProvider.updateCardCount(list);
-  });
 
   // 회원가입 테스트 화면
   var registerDiv = document.createElement("div");

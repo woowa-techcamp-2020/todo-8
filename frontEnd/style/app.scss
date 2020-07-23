@@ -16,29 +16,17 @@ ul {
     padding: 10px;
     background-color: #eeeeee;
     border-radius: 10px;
-    overflow-y: scroll;
-    overflow-x: hidden;
   }
 }
 
-li {
-  cursor: pointer;
-  list-style: none;
-  &.card {
-    padding: 10px;
-    margin: 10px 0 10px 0;
-    width: 280px;
-    background-color: #fff;
-    border-radius: 10px;
-    border: 1px solid gray;
-    color: #000;
-    user-select: none;
-    cursor: pointer;
-    &-user {
-      font-weight: bold;
-    }
-    word-wrap: break-word;
+.list {
+  &-title {
+    margin-top: auto;
+    margin-bottom: auto;
   }
+}
+li {
+  list-style: none;
 
   &.start {
     display: flex;
@@ -48,7 +36,6 @@ li {
     }
 
     div.card-count {
-      border: 1px solid gray;
       min-width: 22px;
       min-height: 25px;
       border-radius: 50px;
@@ -64,12 +51,20 @@ li {
 }
 
 .card {
-  list-style: none;
+  &-list-wrapper {
+    height: 96%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  &-list-wrapper::-webkit-scrollbar {
+    display: none;
+  }
   padding: 10px;
   margin: 10px 0 10px 0;
-  width: 280px;
+  // width: 280px;
   background-color: #fff;
   border-radius: 10px;
+  border: 1px solid gray;
   color: #000;
   user-select: none;
   cursor: pointer;
@@ -81,6 +76,7 @@ li {
     color: grey;
     font-size: 13px;
   }
+  word-wrap: break-word;
 }
 
 .hover {
