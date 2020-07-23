@@ -13,4 +13,9 @@ export default {
     state.currUser = payload;
     return state;
   },
+
+  setColumns(state, payload) {
+    state.columns = payload;
+    return state;
+  },
 };

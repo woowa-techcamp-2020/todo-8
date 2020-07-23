@@ -4,4 +4,6 @@ export default {
     id: 26,
     userId: "이찬호",
   },
+
+  columns: [],
 };

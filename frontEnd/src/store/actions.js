@@ -8,4 +8,8 @@ export default {
   setUser(context, payload) {
     context.commit("setUser", payload);
   },
+
+  setColumns(context, payload) {
+    context.commit("setColumns", payload);
+  },
 };
