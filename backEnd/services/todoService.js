@@ -16,7 +16,7 @@ async function createTodo(todoParams) {
     return { result: "fail", message: "이미 존재하는 카드입니다." };
   } else {
     let todo = await todoRepo.getTodoById(res);
-    return { result: "ok", message: "추가 완료", todo: todo[0] };
+    return { result: "ok", message: "추가 완료", data: todo[0] };
   }
 }
 async function getAllTodos() {
@@ -24,7 +24,7 @@ async function getAllTodos() {
   if (todoList.length == 0) {
     return { result: "fail", message: "데이터가 존재하지 않습니다." };
   } else {
-    return { result: "ok", message: "검색 완료", todoList: todoList };
+    return { result: "ok", message: "검색 완료", data: todoList };
   }
 }
 
@@ -33,7 +33,7 @@ async function getTodoById(id) {
   if (todo.length == 0) {
     return { result: "fail", message: "존재하지 않는 카드입니다." };
   } else {
-    return { result: "ok", message: "검색 완료", todo: todo[0] };
+    return { result: "ok", message: "검색 완료", data: todo };
   }
 }
 

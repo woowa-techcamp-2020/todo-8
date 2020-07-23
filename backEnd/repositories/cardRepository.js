@@ -17,7 +17,7 @@ async function createCard(cardParam) {
   });
 }
 
-async function getAllCards() {
+async function getAllCardsOnly() {
   return new Promise((resolve, reject) => {
     db.query("select * from card", function (err, res) {
       if (err) {
@@ -26,6 +26,51 @@ async function getAllCards() {
       console.log(res.affectedRows + " record(s) selected");
       return resolve(res);
     });
+  }).catch(function (err) {
+    return err;
+  });
+}
+
+async function getAllCards() {
+  return new Promise((resolve, reject) => {
+    db.query(
+      `select card.id as id, card.contents as contents, card.created_at as created_at, card.order 'order', card.column_id as column_id, column.title as column_todo, card.user_id as user_id, user.userId as userId, user.password as user_password
+    from card 
+      left join user 
+        on user.id = card.user_id
+      left join mydb.column 
+        on card.column_id = column.id`,
+      function (err, res) {
+        if (err) {
+          return reject(err.code);
+        }
+        console.log(res.affectedRows + " record(s) selected");
+        return resolve(res);
+      }
+    );
+  }).catch(function (err) {
+    return err;
+  });
+}
+
+async function getCardByColumnId(id) {
+  return new Promise((resolve, reject) => {
+    db.query(
+      `select card.id as id, card.contents as contents, card.created_at as created_at, card.order 'order', card.column_id as column_id, mydb.column.title as column_todo, card.user_id as user_id, user.userId as userId, user.password as user_password
+    from card 
+      left join user 
+        on user.id = card.user_id
+      left join mydb.column 
+        on card.column_id = mydb.column.id
+          where card.column_id = ${id}`,
+      function (err, res) {
+        if (err) {
+          return reject(err.code);
+        }
+        console.log(" record(s) selected");
+        return resolve(res);
+      }
+    );
   }).catch(function (err) {
     return err;
   });
@@ -82,4 +127,5 @@ module.exports = {
   getCardById,
   deleteCard,
   updateCard,
+  getCardByColumnId,
 };

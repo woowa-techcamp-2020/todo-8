@@ -21,6 +21,12 @@ router.get("/card/:id", async function (req, res, next) {
   res.json(result);
 });
 
+router.get("/card/column/:id", async function (req, res, next) {
+  var result = await cardService.getCardByColumnId(req.params.id);
+
+  res.json(result);
+});
+
 router.delete("/card/:id", async function (req, res, next) {
   var result = await cardService.deleteCard(req.params.id);
   res.json(result);

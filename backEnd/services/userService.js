@@ -16,7 +16,7 @@ async function createUser(userParams) {
     return { result: "fail", message: "이미 존재하는 유저입니다." };
   } else {
     let user = await userRepo.getUserById(res);
-    return { result: "ok", message: "가입 완료", user: user[0] };
+    return { result: "ok", message: "가입 완료", data: user[0] };
   }
 }
 async function getAllUsers() {
@@ -24,7 +24,7 @@ async function getAllUsers() {
   if (userList.length == 0) {
     return { result: "fail", message: "데이터가 존재하지 않습니다." };
   } else {
-    return { result: "ok", message: "검색 완료", userList: userList };
+    return { result: "ok", message: "검색 완료", data: userList };
   }
 }
 
@@ -33,7 +33,7 @@ async function getUserById(id) {
   if (user.length == 0) {
     return { result: "fail", message: "존재하지 않는 유저입니다." };
   } else {
-    return { result: "ok", message: "검색 완료", user: user[0] };
+    return { result: "ok", message: "검색 완료", data: user[0] };
   }
 }
 

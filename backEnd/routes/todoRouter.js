@@ -16,7 +16,6 @@ router.get("/todo", async function (req, res, next) {
 
 router.get("/todo/:id", async function (req, res, next) {
   var result = await todoService.getTodoById(req.params.id);
-
   res.json(result);
 });
 
