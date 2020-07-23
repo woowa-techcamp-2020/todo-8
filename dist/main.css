@@ -57,9 +57,9 @@ a {
 #sidebar {
   height: calc(100vh - 58px);
   overflow-y: scroll;
-  background: white;
   float: right;
   right: 0;
+  background: white;
   color: black;
   width: 300px;
   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.25);
@@ -92,38 +92,53 @@ a {
 ul {
   position: relative; }
   ul.list {
-    width: 300px;
+    min-width: 300px;
     height: auto;
     margin: 10px;
     padding: 10px;
     background-color: #eeeeee;
-    border-radius: 10px; }
+    border-radius: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden; }
 
-li.card {
-  list-style: none;
-  padding: 10px;
-  margin: 10px 0 10px 0;
-  width: 280px;
-  background-color: #fff;
-  border-radius: 10px;
-  color: #000;
-  user-select: none;
-  cursor: pointer; }
-
-li.start {
-  font-size: large;
-  list-style: none;
-  display: flex;
-  min-height: 30px; }
-  li.start p {
-    line-height: 30px; }
+li {
+  cursor: pointer;
+  list-style: none; }
+  li.card {
+    padding: 10px;
+    margin: 10px 0 10px 0;
+    width: 280px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid gray;
+    color: #000;
+    user-select: none;
+    word-wrap: break-word; }
+  li.start {
+    display: flex;
+    min-height: 30px; }
+    li.start p {
+      line-height: 30px; }
+    li.start div.card-count {
+      border: 1px solid gray;
+      min-width: 22px;
+      min-height: 25px;
+      border-radius: 50px;
+      margin-right: 10px;
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-left: 3px;
+      padding-right: 3px; }
 
 .hover {
   position: absolute;
   padding: 0;
   margin: 0;
   z-index: 10;
-  transform: scale(1.2); }
+  transform: scale(1.1);
+  opacity: 0.5; }
 
 .temp {
   opacity: 0.5; }
@@ -144,6 +159,8 @@ li.start {
     border-width: 0px; }
     .listButtons button:hover {
       background-color: darkgray; }
+    .listButtons button:focus {
+      outline: 0; }
 
 .add-card-modal textarea {
   width: 100%;

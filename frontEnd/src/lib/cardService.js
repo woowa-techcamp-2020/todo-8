@@ -1,9 +1,15 @@
 let hover = document.querySelector(".hover");
 let shift = { x: 0, y: 0 };
+let clicks = 0,
+  delay = 400;
 
 function isBefore(element1, element2) {
   if (element2.parentNode === element1.parentNode) {
-    for (let prevEl = element1.previousSibling; prevEl; prevEl = prevEl.previousSibling) {
+    for (
+      let prevEl = element1.previousSibling;
+      prevEl;
+      prevEl = prevEl.previousSibling
+    ) {
       if (prevEl === element2) {
         return true;
       }
@@ -12,7 +18,7 @@ function isBefore(element1, element2) {
   return false;
 }
 
-export default class dragService {
+export default class cardService {
   constructor() {
     this.clicked = false;
     this.hoveringElement = undefined;
@@ -35,7 +41,7 @@ export default class dragService {
 
     // 마우스가 움직일 때마다 호버가 마우스를 따라다니도록 만드는 것.
     hover.style.left = pageX - shift["x"] + "px";
-    hover.style.top = pageY - shift["y"] + "px";
+    hover.style.top = pageY - shift["y"] - 10 + "px";
 
     // 어떤 카드 위에 있지 않다면
     if (!li) {
@@ -68,25 +74,45 @@ export default class dragService {
   }
 
   mousedown(event) {
-    this.clicked = true;
+    let mouseDownedCard = event.target.closest("li");
+    if (mouseDownedCard === null) return;
+    let mouseDownedCardContent = mouseDownedCard.querySelector("p");
+    event.preventDefault();
+    clicks++;
+    setTimeout(function () {
+      clicks = 0;
+    }, delay);
 
-    let targetRemove = event.target.closest("li");
-    if (targetRemove === null || targetRemove.className === "start") {
+    if (clicks >= 2) {
+      console.log(mouseDownedCard);
+      let input = prompt(`Edit "${mouseDownedCardContent.innerText}" to...`);
+      console.log(input);
+      if (input) {
+        mouseDownedCardContent.innerText = input;
+        console.log("여기에 DB로 쏠 코드 넣으면 됨:", input);
+      }
+      clicks = 0;
       return;
+    } else {
+      if (mouseDownedCard === null || mouseDownedCard.className === "start") {
+        return;
+      }
+      this.clicked = true;
+      this.targetElement = mouseDownedCard;
+      this.hoveringElement = mouseDownedCard.cloneNode(true);
+      this.targetElement.classList.add("temp");
+
+      shift["x"] =
+        event.clientX - this.targetElement.getBoundingClientRect().left;
+      shift["y"] =
+        event.clientY - this.targetElement.getBoundingClientRect().top;
+
+      const { pageX, pageY } = event;
+      hover.appendChild(this.hoveringElement);
+
+      hover.style.left = pageX - shift["x"] + "px";
+      hover.style.top = pageY - shift["y"] - 10 + "px";
     }
-
-    this.targetElement = targetRemove;
-    this.hoveringElement = targetRemove.cloneNode(true);
-    this.targetElement.classList.add("temp");
-
-    shift["x"] = event.clientX - this.targetElement.getBoundingClientRect().left;
-    shift["y"] = event.clientY - this.targetElement.getBoundingClientRect().top;
-
-    const { pageX, pageY } = event;
-    hover.appendChild(this.hoveringElement);
-
-    hover.style.left = pageX - shift["x"] + "px";
-    hover.style.top = pageY - shift["y"] + "px";
   }
 
   mouseup() {
@@ -97,9 +123,10 @@ export default class dragService {
     if (this.hoveringElement) {
       this.hoveringElement.remove();
     }
-    document.getElementsByClassName("temp").forEach(element => {
+    document.getElementsByClassName("temp").forEach((element) => {
       element.remove();
     });
+
     this.hoveringElement = undefined;
     this.targetElement = undefined;
   }
@@ -111,6 +138,6 @@ export default class dragService {
 
     () => {
       this.mouseup();
-    }
+    };
   }
 }
