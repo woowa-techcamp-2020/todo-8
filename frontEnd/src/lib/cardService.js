@@ -1,5 +1,6 @@
 let hover = document.querySelector(".hover");
 let shift = { x: 0, y: 0 };
+let clicks = 0, delay = 400;
 
 function isBefore(element1, element2) {
   if (element2.parentNode === element1.parentNode) {
@@ -12,7 +13,7 @@ function isBefore(element1, element2) {
   return false;
 }
 
-export default class dragService {
+export default class cardService {
   constructor() {
     this.clicked = false;
     this.hoveringElement = undefined;
@@ -35,7 +36,7 @@ export default class dragService {
 
     // 마우스가 움직일 때마다 호버가 마우스를 따라다니도록 만드는 것.
     hover.style.left = pageX - shift["x"] + "px";
-    hover.style.top = pageY - shift["y"] + "px";
+    hover.style.top = pageY - shift["y"] - 10 + "px";
 
     // 어떤 카드 위에 있지 않다면
     if (!li) {
@@ -68,25 +69,41 @@ export default class dragService {
   }
 
   mousedown(event) {
-    this.clicked = true;
-
-    let targetRemove = event.target.closest("li");
-    if (targetRemove === null || targetRemove.className === "start") {
+    let mouseDownedCard = event.target.closest("li");
+    if (mouseDownedCard === null || mouseDownedCard.className === "start") {
       return;
     }
+    event.preventDefault();
+    clicks++;
+    setTimeout(function () {
+      clicks = 0;
+    }, delay);
 
-    this.targetElement = targetRemove;
-    this.hoveringElement = targetRemove.cloneNode(true);
-    this.targetElement.classList.add("temp");
+    if (clicks >= 2) {
+      console.log(mouseDownedCard);
+      let input = prompt(`Edit Card "${mouseDownedCard.innerText}"`);
+      console.log(input);
+      if (input) {
+        mouseDownedCard.innerText = input;
+        console.log("여기에 DB로 쏠 코드 넣으면 됨:", input);
+      }
+      clicks = 0;
+      return;
+    } else {
+      this.clicked = true;
+      this.targetElement = mouseDownedCard;
+      this.hoveringElement = mouseDownedCard.cloneNode(true);
+      this.targetElement.classList.add("temp");
 
-    shift["x"] = event.clientX - this.targetElement.getBoundingClientRect().left;
-    shift["y"] = event.clientY - this.targetElement.getBoundingClientRect().top;
+      shift["x"] = event.clientX - this.targetElement.getBoundingClientRect().left;
+      shift["y"] = event.clientY - this.targetElement.getBoundingClientRect().top;
 
-    const { pageX, pageY } = event;
-    hover.appendChild(this.hoveringElement);
+      const { pageX, pageY } = event;
+      hover.appendChild(this.hoveringElement);
 
-    hover.style.left = pageX - shift["x"] + "px";
-    hover.style.top = pageY - shift["y"] + "px";
+      hover.style.left = pageX - shift["x"] + "px";
+      hover.style.top = pageY - shift["y"] - 10 + "px";
+    }
   }
 
   mouseup() {
@@ -112,5 +129,9 @@ export default class dragService {
     () => {
       this.mouseup();
     }
+  }
+
+  mousedblclcick() {
+    console.log("무언가 더블클릭됨.");
   }
 }
