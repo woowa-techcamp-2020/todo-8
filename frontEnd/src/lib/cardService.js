@@ -1,10 +1,15 @@
 let hover = document.querySelector(".hover");
 let shift = { x: 0, y: 0 };
-let clicks = 0, delay = 400;
+let clicks = 0,
+  delay = 400;
 
 function isBefore(element1, element2) {
   if (element2.parentNode === element1.parentNode) {
-    for (let prevEl = element1.previousSibling; prevEl; prevEl = prevEl.previousSibling) {
+    for (
+      let prevEl = element1.previousSibling;
+      prevEl;
+      prevEl = prevEl.previousSibling
+    ) {
       if (prevEl === element2) {
         return true;
       }
@@ -73,7 +78,7 @@ export default class cardService {
     if (mouseDownedCard === null) return;
     let mouseDownedCardContent = mouseDownedCard.querySelector("p");
     event.preventDefault();
-    clicks++; d
+    clicks++;
     setTimeout(function () {
       clicks = 0;
     }, delay);
@@ -97,8 +102,10 @@ export default class cardService {
       this.hoveringElement = mouseDownedCard.cloneNode(true);
       this.targetElement.classList.add("temp");
 
-      shift["x"] = event.clientX - this.targetElement.getBoundingClientRect().left;
-      shift["y"] = event.clientY - this.targetElement.getBoundingClientRect().top;
+      shift["x"] =
+        event.clientX - this.targetElement.getBoundingClientRect().left;
+      shift["y"] =
+        event.clientY - this.targetElement.getBoundingClientRect().top;
 
       const { pageX, pageY } = event;
       hover.appendChild(this.hoveringElement);
@@ -116,7 +123,7 @@ export default class cardService {
     if (this.hoveringElement) {
       this.hoveringElement.remove();
     }
-    document.getElementsByClassName("temp").forEach(element => {
+    document.getElementsByClassName("temp").forEach((element) => {
       element.remove();
     });
 
@@ -131,6 +138,6 @@ export default class cardService {
 
     () => {
       this.mouseup();
-    }
+    };
   }
 }
