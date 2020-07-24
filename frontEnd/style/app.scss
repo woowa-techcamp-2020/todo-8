@@ -68,6 +68,8 @@ li {
   color: #000;
   user-select: none;
   cursor: pointer;
+  transition: 0.2s all ease-in-out;
+  
   &-user {
     font-weight: bold;
     font-size: 13px;
