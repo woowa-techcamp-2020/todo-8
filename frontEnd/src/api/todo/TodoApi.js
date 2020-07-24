@@ -19,7 +19,7 @@ async function getAllTodos() {
     .then((res) => res.json())
     .then((res) => {
       if (res.result === "ok") {
-        return res.todoList;
+        return res.data;
       } else if (res.result === "fail") {
         return res.message;
       }
@@ -30,13 +30,13 @@ async function getAllTodos() {
 }
 
 async function getTodoById(id) {
-  return await fetch(`/api/todo/${id.id}`, {
+  return await fetch(`/api/todo/${id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   }).then(async function (response) {
     let result = await response.json();
     if (result.result == "ok") {
-      return result.todo;
+      return result.data;
     } else if (result.result == "fail") {
       console.log(result.message);
     }

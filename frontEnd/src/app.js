@@ -1,39 +1,36 @@
-import MainService from "./lib/mainService.js";
-import userService from "./lib/userService.js";
 import cardService from "./lib/cardService.js";
-import listService from "./lib/listService.js"
 
 import indexStyle from "../style/index.scss";
 import appStyle from "../style/app.scss";
 
 import api from "./api/index.js";
 import moment from "moment";
-import card from "./components/card.js";
-import User from "./components/user.js";
+import store from "./store/index";
+import todoService from "./lib/todoService";
+import columnService from "./lib/columnService";
 
 let currUser;
+
 window.addEventListener("DOMContentLoaded", async () => {
   currUser = await api.User().getUserById({
     id: 26,
   });
-  console.log("현재 [", currUser.userId, "] 님이 접속했습니다");
+
+  store.dispatch("setUser", currUser);
+
+  columnService();
+
+  console.log("현재 [", store.state.currUser.userId, "] 님이 접속했습니다");
 
   const todoBoard = document.querySelector("#app");
-  document.addEventListener('contextmenu', event => event.preventDefault());
+  document.addEventListener("contextmenu", (event) => event.preventDefault());
 
   const cardServiceProvider = new cardService();
-  const listServiceProvider = new listService();
 
   todoBoard.addEventListener("mousemove", cardServiceProvider.mousemove);
   todoBoard.addEventListener("mousedown", cardServiceProvider.mousedown);
   todoBoard.addEventListener("mouseup", cardServiceProvider.mouseup);
   todoBoard.addEventListener("mouseleave", cardServiceProvider.mouseleave);
-
-  document.querySelectorAll(".list").forEach(list => {
-    listServiceProvider.addlistButtonsTo(list);
-    listServiceProvider.hideAddCardModal(list);
-    listServiceProvider.updateCardCount(list);
-  });
 
   // 회원가입 테스트 화면
   var registerDiv = document.createElement("div");
@@ -51,8 +48,8 @@ window.addEventListener("DOMContentLoaded", async () => {
       password: pwField.value,
     });
     if (result.result == "ok") {
-      currUser = result.user;
-      console.log("현재 유저는 [" + currUser.userId + "] 입니다.");
+      store.dispatch("setUser", result.data);
+      console.log("현재 유저는 [" + store.state.currUser.userId + "] 입니다.");
     } else if (result.result == "fail") {
       console.log(result.message);
     }
@@ -88,7 +85,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   getUser_btn.innerHTML = "현재회원조회";
   getUser_btn.onclick = async function () {
     currUser = await api.User().getUserById({
-      id: currUser.id,
+      id: store.state.currUser.id,
     });
     console.log("현재 유저는 [" + currUser.userId + "] 입니다.");
   };
@@ -112,6 +109,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       column_id: 1,
       user_id: currUser.id,
     });
+    columnService();
   };
   cardDiv.appendChild(cardBtn);
   registerDiv.appendChild(cardDiv);

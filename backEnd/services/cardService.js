@@ -16,7 +16,7 @@ async function createCard(cardParams) {
     return { result: "fail", message: "이미 존재하는 카드입니다." };
   } else {
     let card = await cardRepo.getCardById(res);
-    return { result: "ok", message: "추가 완료", card: card[0] };
+    return { result: "ok", message: "추가 완료", data: card[0] };
   }
 }
 async function getAllCards() {
@@ -24,7 +24,7 @@ async function getAllCards() {
   if (cardList.length == 0) {
     return { result: "fail", message: "데이터가 존재하지 않습니다." };
   } else {
-    return { result: "ok", message: "검색 완료", cardList: cardList };
+    return { result: "ok", message: "검색 완료", data: cardList };
   }
 }
 
@@ -33,7 +33,16 @@ async function getCardById(id) {
   if (card.length == 0) {
     return { result: "fail", message: "존재하지 않는 카드입니다." };
   } else {
-    return { result: "ok", message: "검색 완료", card: card[0] };
+    return { result: "ok", message: "검색 완료", data: card };
+  }
+}
+
+async function getCardByColumnId(id) {
+  let cardList = await cardRepo.getCardByColumnId(id);
+  if (cardList.length == 0) {
+    return { result: "fail", message: "존재하지 않는 카드입니다." };
+  } else {
+    return { result: "ok", message: "검색 완료", data: cardList };
   }
 }
 
@@ -49,23 +58,23 @@ async function deleteCard(id) {
   }
 }
 
-async function updateCard(newCard) {
-  let card = await cardRepo.getCardById(newCard.id);
-
-  if (card.length == 0) {
+async function updateCard(params) {
+  let tempCard = await cardRepo.getCardById(params.card_id);
+  if (tempCard.length == 0) {
     return { result: "fail", message: "존재하지 않는 카드입니다." };
   } else {
-    newCard.updated_at = moment().format("YYYY-MM-DD HH:mm:ss");
-    let cardDTO = new Card(newCard);
+    let cardDTO = new Card(tempCard[0]);
+    cardDTO.setUpdatedAt(moment().format("YYYY-MM-DD HH:mm:ss"));
+    cardDTO.setContents(params.new_contents);
+    cardDTO.setColumnId(params.new_column_id);
+    console.log(cardDTO);
 
     await cardRepo.updateCard(cardDTO);
-
     let card = await cardRepo.getCardById(cardDTO.getId());
-
     return {
       result: "ok",
-      message: `${cardDTO.getCardId()} 정보를 수정했습니다.`,
-      card: card[0],
+      message: `${cardDTO.getId()} 정보를 수정했습니다.`,
+      data: card[0],
     };
   }
 }
@@ -75,4 +84,5 @@ module.exports = {
   getCardById,
   deleteCard,
   updateCard,
+  getCardByColumnId,
 };

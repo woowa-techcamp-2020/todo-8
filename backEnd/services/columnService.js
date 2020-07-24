@@ -16,7 +16,7 @@ async function createColumn(columnParams) {
     return { result: "fail", message: "이미 존재하는 리스트입니다." };
   } else {
     let column = await columnRepo.getColumnById(res);
-    return { result: "ok", message: "추가 완료", column: column[0] };
+    return { result: "ok", message: "추가 완료", data: column[0] };
   }
 }
 async function getAllColumns() {
@@ -24,7 +24,7 @@ async function getAllColumns() {
   if (columnList.length == 0) {
     return { result: "fail", message: "데이터가 존재하지 않습니다." };
   } else {
-    return { result: "ok", message: "검색 완료", columnList: columnList };
+    return { result: "ok", message: "검색 완료", data: columnList };
   }
 }
 
@@ -33,7 +33,7 @@ async function getColumnById(id) {
   if (column.length == 0) {
     return { result: "fail", message: "존재하지 않는 리스트입니다." };
   } else {
-    return { result: "ok", message: "검색 완료", column: column[0] };
+    return { result: "ok", message: "검색 완료", data: column[0] };
   }
 }
 
@@ -49,23 +49,22 @@ async function deleteColumn(id) {
   }
 }
 
-async function updateColumn(newColumn) {
-  let column = await columnRepo.getColumnById(newColumn.id);
-
-  if (column.length == 0) {
+async function updateColumn(params) {
+  let tempColumn = await columnRepo.getColumnById(params.column_id);
+  if (tempColumn.length == 0) {
     return { result: "fail", message: "존재하지 않는 리스트입니다." };
   } else {
-    newColumn.updated_at = moment().format("YYYY-MM-DD HH:mm:ss");
-    let columnDTO = new Column(newColumn);
+    let columnDTO = new Column(tempColumn[0]);
+    columnDTO.setUpdatedAt(moment().format("YYYY-MM-DD HH:mm:ss"));
+    columnDTO.setTitle(params.new_title);
 
     await columnRepo.updateColumn(columnDTO);
 
     let column = await columnRepo.getColumnById(columnDTO.getId());
-
     return {
       result: "ok",
-      message: `${columnDTO.getColumnId()} 정보를 수정했습니다.`,
-      column: column[0],
+      message: `${columnDTO.getId()} 정보를 수정했습니다.`,
+      data: column[0],
     };
   }
 }

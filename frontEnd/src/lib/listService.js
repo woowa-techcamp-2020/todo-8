@@ -1,10 +1,9 @@
+import api from "../api/index";
+import store from "../store/index";
+
 export default class listService {
   constructor() {
     this.addCardModalShown = false;
-  }
-
-  updateCardCount(todoList) {
-    todoList.querySelector(".card-count").innerText = todoList.querySelectorAll(".card").length;
   }
 
   addlistButtonsTo(todoList) {
@@ -12,14 +11,14 @@ export default class listService {
     listButtons.classList.add("listButtons");
 
     const addCardButton = document.createElement("button");
-    addCardButton.innerText = "ADD"
+    addCardButton.innerText = "ADD";
 
     const showListOptionButton = document.createElement("button");
-    showListOptionButton.innerText = "OPTIONS"
+    showListOptionButton.innerText = "OPTIONS";
 
     let addCardModalTextarea = document.createElement("textarea");
     addCardModalTextarea.classList.add("add-card-modal-textarea");
-    addCardModalTextarea.placeholder = "새로운 카드의 내용을 입력하세요."
+    addCardModalTextarea.placeholder = "새로운 카드의 내용을 입력하세요.";
     let addCardModalAddButton = document.createElement("button");
     addCardModalAddButton.classList.add("add-card-modal-add-button");
     addCardModalAddButton.innerText = "Add";
@@ -35,54 +34,93 @@ export default class listService {
 
     listButtons.appendChild(addCardButton);
     listButtons.appendChild(showListOptionButton);
+
     todoList.querySelector(".start").append(listButtons);
+    todoList.insertBefore(
+      addCardModal,
+      todoList.querySelector(".start").nextSibling
+    );
 
-    todoList.insertBefore(addCardModal, todoList.querySelector(".start").nextSibling);
+    addCardButton.addEventListener(
+      "click",
+      () => {
+        if (this.addCardModalShown) {
+          this.hideAddCardModal(todoList);
+        } else {
+          this.showAddCardModal(todoList);
+        }
+      },
+      false
+    );
 
-    addCardButton.addEventListener('click', () => {
-      if (this.addCardModalShown) {
+    addCardModalCancelButton.addEventListener(
+      "click",
+      () => {
         this.hideAddCardModal(todoList);
-      } else {
-        this.showAddCardModal(todoList);
-      }
-    }, false);
+      },
+      false
+    );
 
-    addCardModalCancelButton.addEventListener('click', () => {
-      this.hideAddCardModal(todoList);
-    }, false);
-
-    addCardModalAddButton.addEventListener('click', () => {
-      this.addCard(addCardModalTextarea.value, todoList);
-    }, false);
+    addCardModalAddButton.addEventListener(
+      "click",
+      () => {
+        this.addCard(addCardModalTextarea.value, todoList);
+      },
+      false
+    );
   }
 
   showAddCardModal(todoList) {
     this.addCardModalShown = true;
-    todoList.getElementsByClassName("add-card-modal").forEach(element => {
+    todoList.getElementsByClassName("add-card-modal").forEach((element) => {
       element.style.display = "";
     });
   }
 
-  addCard(content, todoList) {
+  async addCard(content, todoList) {
     if (content === "") return;
-    this.hideAddCardModal(todoList, true)
+    this.hideAddCardModal(todoList, true);
+
+    let card = await api.Card().createCard({
+      contents: content,
+      column_id: todoList.id.split("-")[1],
+      user_id: store.state.currUser.id,
+    });
+    console.log("card 결과", card.data);
+
     let newCard = document.createElement("li");
-    newCard.classList.add("card");
-    newCard.innerHTML = `<p>${content}</p>`;
-    console.log("여기에 DB로 쏠 코드 들어가면 됨.");
-    todoList.insertBefore(newCard, todoList.querySelector(".add-card-modal").nextSibling);
+    let name = "card " + card.data.id;
+    console.log(card.data);
+    newCard.className = name;
+    newCard.innerHTML = `<div>
+                          <div class="card-contents">
+                              ${card.data.contents}
+                          </div>
+                          <div>
+                              <span class="card-des">Addad by</span> <span class="card-user">${card.data.userId}</span>
+                          </div>
+                      </div>`;
+
+    console.log("여기에 DB로 쏠 코드 들어가면 됨.", newCard);
+
+    todoList.insertBefore(
+      newCard,
+      todoList.querySelector(".add-card-modal").nextSibling
+    );
   }
 
   hideAddCardModal(todoList, deleteOk = false) {
     let ta = todoList.querySelector(".add-card-modal-textarea");
     if (!deleteOk && ta.value) {
-      deleteOk = confirm("입력되신 내용이 저장되지 않았습니다. 계속하시겠습니까?");
+      deleteOk = confirm(
+        "입력되신 내용이 저장되지 않았습니다. 계속하시겠습니까?"
+      );
     } else {
       deleteOk = true;
     }
     if (deleteOk) {
       ta.value = "";
-      todoList.getElementsByClassName("add-card-modal").forEach(element => {
+      todoList.getElementsByClassName("add-card-modal").forEach((element) => {
         element.style.display = "none";
       });
       this.addCardModalShown = false;

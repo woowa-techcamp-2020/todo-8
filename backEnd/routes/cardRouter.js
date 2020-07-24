@@ -21,14 +21,20 @@ router.get("/card/:id", async function (req, res, next) {
   res.json(result);
 });
 
+router.get("/card/column/:id", async function (req, res, next) {
+  var result = await cardService.getCardByColumnId(req.params.id);
+
+  res.json(result);
+});
+
 router.delete("/card/:id", async function (req, res, next) {
   var result = await cardService.deleteCard(req.params.id);
   res.json(result);
 });
 
 router.put("/card", async function (req, res, next) {
-  let newCard = req.body.card;
-  var result = await cardService.updateCard(newCard);
+  let params = req.body.params;
+  var result = await cardService.updateCard(params);
   res.json(result);
 });
 

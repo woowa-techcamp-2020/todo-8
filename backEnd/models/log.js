@@ -1,20 +1,18 @@
-class Card {
-  constructor(cardData) {
+class Log {
+  constructor(logData) {
     let id;
     let contents;
-    let column_id;
+    let todoList_id;
     let user_id;
-    let order;
     let created_at;
     let updated_at;
 
-    this.setId(cardData.id);
-    this.setContents(cardData.contents);
-    this.setColumnId(cardData.column_id);
-    this.setOrder(cardData.order);
-    this.setUserId(cardData.user_id);
-    this.setCreatedAt(cardData.created_at);
-    this.setUpdatedAt(cardData.updated_at);
+    this.setId(logData.id);
+    this.setContents(logData.contents);
+    this.setTodolistId(logData.todoList_id);
+    this.setUserId(logData.user_id);
+    this.setCreatedAt(logData.created_at);
+    this.setUpdatedAt(logData.updated_at);
   }
 
   setId(id) {
@@ -30,12 +28,6 @@ class Card {
   getContents() {
     return this.contents;
   }
-  setOrder(order) {
-    this.order = order;
-  }
-  getOrder() {
-    return this.order;
-  }
   setUserId(user_id) {
     this.user_id = user_id;
   }
@@ -50,11 +42,11 @@ class Card {
     return this.password;
   }
 
-  setColumnId(column_id) {
-    this.column_id = column_id;
+  setTodolistId(todoList_id) {
+    this.todoList_id = todoList_id;
   }
-  getColumnId() {
-    return this.column_id;
+  getTodolistId() {
+    return this.todoList_id;
   }
 
   setCreatedAt(created_at) {
@@ -71,4 +63,4 @@ class Card {
   }
 }
 
-module.exports = { Card };
+module.exports = { Log };

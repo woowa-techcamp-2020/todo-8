@@ -26,8 +26,8 @@ router.delete("/column/:id", async function (req, res, next) {
 });
 
 router.put("/column", async function (req, res, next) {
-  let newColumn = req.body.column;
-  var result = await columnService.updateColumn(newColumn);
+  let params = req.body.params;
+  var result = await columnService.updateColumn(params);
   res.json(result);
 });
 

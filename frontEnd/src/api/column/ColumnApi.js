@@ -19,7 +19,7 @@ async function getAllColumns() {
     .then((res) => res.json())
     .then((res) => {
       if (res.result === "ok") {
-        return res.columnList;
+        return res.data;
       } else if (res.result === "fail") {
         return res.message;
       }
@@ -36,22 +36,22 @@ async function getColumnById(id) {
   }).then(async function (response) {
     let result = await response.json();
     if (result.result == "ok") {
-      return result.column;
+      return result.data;
     } else if (result.result == "fail") {
       console.log(result.message);
     }
   });
 }
 
-async function updateColumn(column) {
+async function updateColumn(params) {
   return await fetch("/api/column", {
     method: "PUT",
-    body: JSON.stringify({ column }),
+    body: JSON.stringify({ params }),
     headers: { "Content-Type": "application/json" },
   }).then(async function (response) {
     let result = await response.json();
     if (result.result == "ok") {
-      return result.column;
+      return result.data;
     } else if (result.result == "fail") {
       console.log(result.message);
     }
