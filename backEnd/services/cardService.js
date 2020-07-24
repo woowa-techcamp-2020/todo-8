@@ -59,15 +59,17 @@ async function deleteCard(id) {
 }
 
 async function updateCard(params) {
+  console.log("params", params);
   let tempCard = await cardRepo.getCardById(params.card_id);
+  console.log("tempCard", tempCard);
   if (tempCard.length == 0) {
     return { result: "fail", message: "존재하지 않는 카드입니다." };
   } else {
     let cardDTO = new Card(tempCard[0]);
+    console.log("cardDTO", cardDTO);
     cardDTO.setUpdatedAt(moment().format("YYYY-MM-DD HH:mm:ss"));
-    cardDTO.setContents(params.new_contents);
-    cardDTO.setColumnId(params.new_column_id);
-    console.log(cardDTO);
+    if (params.new_contents) cardDTO.setContents(params.new_contents);
+    if (params.new_column_id) cardDTO.setColumnId(params.new_column_id);
 
     await cardRepo.updateCard(cardDTO);
     let card = await cardRepo.getCardById(cardDTO.getId());

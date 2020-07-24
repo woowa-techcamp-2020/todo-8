@@ -5,7 +5,6 @@ var cardService = require("../services/cardService.js");
 /* GET cards listing. */
 router.post("/card", async function (req, res, next) {
   var cardData = req.body;
-  console.log("rrr", cardData);
   var result = await cardService.createCard(cardData);
   res.json(result);
 });

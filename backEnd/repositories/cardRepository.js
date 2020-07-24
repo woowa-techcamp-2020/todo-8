@@ -79,7 +79,7 @@ async function getCardByColumnId(id) {
 async function getCardById(id) {
   return new Promise((resolve, reject) => {
     db.query(
-      `select card.id as id, card.contents as contents, card.created_at as created_at, card.order as 'order', card.column_id as column_id, card.user_id as user_id, user.userId as userId
+      `select card.id as id, card.contents as contents, card.created_at as created_at,card.updated_at as updated_at, card.order as 'order', card.column_id as column_id, card.user_id as user_id, user.userId as userId
     from mydb.card as card
       left join user
         on mydb.card.user_id = user.id where card.id = ${id}`,
