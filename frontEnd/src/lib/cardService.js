@@ -44,8 +44,6 @@ export default class cardService {
     const ul = elemBelow.closest("ul"); // 가장 가까운 카드
     hover.hidden = false;
 
-    // console.log("li", li);
-    // console.log("ul", ul);
     // 마우스가 움직일 때마다 호버가 마우스를 따라다니도록 만드는 것.
     hover.style.left = pageX - shift["x"] + "px";
     hover.style.top = pageY - shift["y"] - 10 + "px";
@@ -83,7 +81,6 @@ export default class cardService {
       // start 카드 다음에 넣는다.
       li.parentNode.insertBefore(this.targetElement, li.nextSibling);
     } else if (li.parentNode.className == "card-list-wrapper") {
-      console.log("옹향캬햨햨햐");
     }
   }
 
@@ -100,7 +97,7 @@ export default class cardService {
 
     if (clicks >= 2) {
       if (mouseDownedCard.className === "start") {
-        mouseDownedCardContent = mouseDownedCard.querySelector("span");
+        mouseDownedCardContent = mouseDownedCard.querySelector(".list-title");
         let column_id = event.target.closest("li").parentNode.id.split("-")[1];
         let input = prompt(`Edit "${mouseDownedCardContent.innerText}" to...`);
         if (input) {
@@ -109,17 +106,21 @@ export default class cardService {
             new_title: input,
           };
           Api.Column().updateColumn(params);
+          mouseDownedCardContent.innerText = input;
         }
         clicks = 0;
       } else {
         let card_id = event.target.closest("li").className.split(" ")[1];
-        let input = prompt(`Edit "${mouseDownedCardContent.innerText}" to...`);
+        let input = prompt(`Edit "${mouseDownedCardContent.querySelector(".card-contents").innerText}" to...`);
         if (input) {
           let params = {
             card_id,
             new_contents: input,
           };
           Api.Card().updateCard(params);
+
+          // 프론트엔드에서 업데이트된 결과물을 우선 보여줌
+          mouseDownedCardContent.querySelector(".card-contents").innerText = input;
         }
         clicks = 0;
         return;
