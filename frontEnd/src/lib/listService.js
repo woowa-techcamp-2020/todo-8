@@ -80,7 +80,7 @@ export default class listService {
   async addCard(content, todoList) {
     if (content === "") return;
     this.hideAddCardModal(todoList, true);
-
+    console.log(todoList.querySelector(".card-list-wrapper").querySelector(".card"));
     let card = await api.Card().createCard({
       contents: content,
       column_id: todoList.id.split("-")[1],
@@ -100,11 +100,11 @@ export default class listService {
                               <span class="card-des">Addad by</span> <span class="card-user">${card.data.userId}</span>
                           </div>
                       </div>`;
-
-    todoList.insertBefore(
-      newCard,
-      todoList.querySelector(".add-card-modal").nextSibling
-    );
+    // todoList.insertBefore(
+    //   newCard,
+    //   todoList.querySelector(".card-list-wrapper").querySelector(".card")
+    // );
+    todoList.querySelector(".card-list-wrapper").prepend(newCard);
   }
 
   hideAddCardModal(todoList, deleteOk = false) {
