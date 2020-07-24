@@ -27,13 +27,14 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   const cardServiceProvider = new cardService();
 
-  todoBoard.addEventListener("mousemove", cardServiceProvider.mousemove);
-  todoBoard.addEventListener("mousedown", cardServiceProvider.mousedown);
-  todoBoard.addEventListener("mouseup", cardServiceProvider.mouseup);
-  todoBoard.addEventListener("mouseleave", cardServiceProvider.mouseleave);
+  todoBoard.addEventListener("pointermove", cardServiceProvider.pointermove);
+  todoBoard.addEventListener("pointerdown", cardServiceProvider.pointerdown);
+  todoBoard.addEventListener("pointerup", cardServiceProvider.pointerup);
+  todoBoard.addEventListener("pointerleave", cardServiceProvider.pointerleave);
 
   // 회원가입 테스트 화면
   var registerDiv = document.createElement("div");
+  registerDiv.classList.add("register-div")
   var idField = document.createElement("input");
   var pwField = document.createElement("input");
   idField.placeholder = "ID";
@@ -91,7 +92,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   };
   registerDiv.appendChild(idField);
   registerDiv.appendChild(pwField);
-
   registerDiv.appendChild(resgitser_btn);
   registerDiv.appendChild(update_btn);
   registerDiv.appendChild(getUser_btn);
@@ -99,20 +99,20 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   // 카드 추가 테스트 화면
 
-  var cardDiv = document.createElement("div");
-  var cardBtn = document.createElement("BUTTON");
-  cardBtn.innerHTML = "카드추가";
-  cardBtn.onclick = async function () {
-    console.log("이름=", idField.value);
-    await api.Card().createCard({
-      contents: idField.value,
-      column_id: 1,
-      user_id: currUser.id,
-    });
-    columnService();
-  };
-  cardDiv.appendChild(cardBtn);
-  registerDiv.appendChild(cardDiv);
+  // var cardDiv = document.createElement("div");
+  // var cardBtn = document.createElement("BUTTON");
+  // cardBtn.innerHTML = "카드추가";
+  // cardBtn.onclick = async function () {
+  //   console.log("이름=", idField.value);
+  //   await api.Card().createCard({
+  //     contents: idField.value,
+  //     column_id: 1,
+  //     user_id: currUser.id,
+  //   });
+  //   columnService();
+  // };
+  // cardDiv.appendChild(cardBtn);
+  // registerDiv.appendChild(cardDiv);
   todoBoard.appendChild(registerDiv);
 
   let menuButton = document.getElementById("menuButton");
