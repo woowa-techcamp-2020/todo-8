@@ -36,7 +36,7 @@ function columnService() {
       async controller(model) {
         const cards = await api.Card().getCardByColumnId(col.column_id);
         if (cards) {
-          model.cards = cards;
+          model.cards = cards.reverse();
           column.updateView();
         }
         let listServiceInstance = new listService();
