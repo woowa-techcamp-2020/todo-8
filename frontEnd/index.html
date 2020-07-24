@@ -7,6 +7,12 @@
   <title>Todo List</title>
 </head>
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo List</title>
+</head>
+
 <body>
   <header>
     <h1>ToDo List</h1>
@@ -16,15 +22,39 @@
       </div>
     </nav>
   </header>
-  <div id="nav" class="closed" hidden>
-    <ul id="menu-unordered-el">
+  <div id="sidebar" class="closed" hidden>
+    <ul id="activity-log-list"></ul>
+  </div>
+  <div id="app">
+    <div class="hover"></div>
+    <ul class="list">
+      <li class="start">
+        <div class="card-count"></div>
+        <p></p>
+      </li>
+      <li class="card">
+        <p></p>
+      </li>
+    </ul>
+    <ul class="list">
+      <li class="start">
+        <div class="card-count"></div>
+        <p></p>
+      </li>
+      <li class="card">
+        <p></p>
+      </li>
+    </ul>
+    <ul class="list">
+      <li class="start">
+        <div class="card-count"></div>
+        <p></p>
+      </li>
+      <li class="card">
+        <p></p>
+      </li>
     </ul>
   </div>
-  <main>
-    <div class="wrap">
-      <div id="app"></div>
-    </div>
-  </main>
   <footer></footer>
 </body>
 
