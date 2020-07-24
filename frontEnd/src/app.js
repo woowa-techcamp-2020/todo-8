@@ -138,6 +138,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
+// 우측 사이드바 활동 내역 로드
 async function addActivityLogToActivityLogList() {
   let activityLogList = document.getElementById("activity-log-list");
   activityLogList.classList.add("activityLog");

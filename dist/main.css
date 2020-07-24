@@ -97,30 +97,20 @@ ul {
     margin: 10px;
     padding: 10px;
     background-color: #eeeeee;
-    border-radius: 10px;
-    overflow-y: scroll;
-    overflow-x: hidden; }
+    border-radius: 10px; }
+
+.list-title {
+  margin-top: auto;
+  margin-bottom: auto; }
 
 li {
-  cursor: pointer;
   list-style: none; }
-  li.card {
-    padding: 10px;
-    margin: 10px 0 10px 0;
-    width: 280px;
-    background-color: #fff;
-    border-radius: 10px;
-    border: 1px solid gray;
-    color: #000;
-    user-select: none;
-    word-wrap: break-word; }
   li.start {
     display: flex;
     min-height: 30px; }
     li.start p {
       line-height: 30px; }
     li.start div.card-count {
-      border: 1px solid gray;
       min-width: 22px;
       min-height: 25px;
       border-radius: 50px;
@@ -131,6 +121,30 @@ li {
       align-items: center;
       padding-left: 3px;
       padding-right: 3px; }
+
+.card {
+  padding: 10px;
+  margin: 10px 0 10px 0;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid gray;
+  color: #000;
+  user-select: none;
+  cursor: pointer;
+  transition: 0.2s all ease-in-out;
+  word-wrap: break-word; }
+  .card-list-wrapper {
+    height: 96%;
+    overflow-y: scroll;
+    overflow-x: hidden; }
+  .card-list-wrapper::-webkit-scrollbar {
+    display: none; }
+  .card-user {
+    font-weight: bold;
+    font-size: 13px; }
+  .card-des {
+    color: grey;
+    font-size: 13px; }
 
 .hover {
   position: absolute;
