@@ -101,8 +101,6 @@ export default class listService {
                           </div>
                       </div>`;
 
-    console.log("여기에 DB로 쏠 코드 들어가면 됨.", newCard);
-
     todoList.insertBefore(
       newCard,
       todoList.querySelector(".add-card-modal").nextSibling
